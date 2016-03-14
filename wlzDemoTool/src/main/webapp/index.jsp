@@ -36,6 +36,12 @@
                     </div> 
 
                     <br />
+                    
+                    <div>
+                        <img src="http://lxbisel.macs.hw.ac.uk:8080/2016-03-14-pitch_yaw_explanation_small.jpg" />
+                    </div>
+
+                    <br />
 
                     <span><b>Yaw</b></span>
                     <div class="input-group">
@@ -51,6 +57,7 @@
                         <span id="pitValue" class="input-group-addon" >90</span>
                     </div>                      
 
+                                       
 
                     <br />
 
