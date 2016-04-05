@@ -36,7 +36,7 @@
                     </div> 
 
                     <br />
-                    
+
                     <div>
                         <img src="http://lxbisel.macs.hw.ac.uk:8080/2016-03-14-pitch_yaw_explanation_small.jpg" />
                     </div>
@@ -57,7 +57,7 @@
                         <span id="pitValue" class="input-group-addon" >90</span>
                     </div>                      
 
-                                       
+
 
                     <br />
 
@@ -71,6 +71,53 @@
                 </div>            
             </div>
         </div>
+
+        <br />
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <span><b>Describe the position of the ROI</b></span>
+                </div>            
+            </div>
+            <div class="row">
+                <div class="col-md-2">                    
+                    ROI is
+                </div>
+                <div class="col-md-2">
+                    <select id="relnSelect" class="form-control" default="0">
+                        <option value="0" selected="true">none</option>
+                        <option value="1">left</option>
+                        <option value="2">right</option>
+                    </select>                      
+                </div>
+                <div class="col-md-2">
+                    of
+                </div>
+                <div class="col-md-2">
+                    <select id="relnTissueSelect" class="form-control" default="0">
+                        <option value="0" selected="true">none</option>
+                        <option value="22">heart</option>
+                        <option value="3">liver</option>
+                    </select>                     
+                </div>
+                <div class="col-md-2">
+                    <input type="button" class="btn btn-default" id="relnButton" value="Add" onclick="addReln()">                    
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <span><b>Spatial Description</b></span>
+                    <div id="scratch">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <br />
 
@@ -94,6 +141,8 @@
             var newPIT = 90;
             var newYAW = 90;
             var newURL = "http://lxbisel1:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/compound.wlz&sel=0&CVT=png";
+            var counter = 0;
+            var relnArray = [];
 
             function updateDST() {
                 newDST = document.getElementById("dstSlider").value;
@@ -129,20 +178,62 @@
                 newYAW = 90;
                 newPIT = 90;
                 newTissue = "0";
+                counter = 0;
 
                 document.getElementById("dstSlider").value = newDST;
                 document.getElementById("yawSlider").value = newYAW;
                 document.getElementById("pitSlider").value = newPIT;
-                
-
 
                 document.getElementById("dstValue").innerHTML = "150";
                 document.getElementById("yawValue").innerHTML = "90";
                 document.getElementById("pitValue").innerHTML = "90";
                 document.getElementById("tissueSelect").value = "0";
 
+                document.getElementById("relnSelect").value = "0";
+                document.getElementById("relnTissueSelect").value = "0";
+                document.getElementById("scratch").innerHTML = "";
+
                 document.getElementById("iip_image").innerHTML = "<img src=\"http://lxbisel1:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/compound.wlz&sel=0&CVT=png\"/>";
                 document.getElementById("url").innerHTML = "http://lxbisel1:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/compound.wlz&sel=0&CVT=png";
+            }
+
+
+            function addReln() {
+                var relationship = document.getElementById("relnSelect").value;
+                var relnTissue = document.getElementById("relnTissueSelect").value;
+                if (relationship === "0") {
+                    alert("Please enter a relationship");
+                } else if (relnTissue === "0") {
+                    alert("Please enter a tissue");
+                } else {
+                    var relnDescription = "ROI is " + relationship + " from " + relnTissue;
+                    var relnObject = {id: counter++, description: relnDescription};
+                    relnArray.push(relnObject);
+                    document.getElementById("relnSelect").value = "0";
+                    document.getElementById("relnTissueSelect").value = "0";
+                    createTable();
+                }
+            }
+
+            function deleteReln(id) {
+                for (index = 0; index < relnArray.length; index++) {
+                    if (relnArray[index].id === id) {
+                        relnArray.splice(index, 1);
+                    }
+                }
+                createTable();
+            }
+
+            function createTable() {
+                var tableCode = "<table class=\"table table-striped\"><thead><tr><td>Description</td><td>Delete?</td></tr></thead>";
+
+                for (index = 0; index < relnArray.length; index++) {
+                    tableCode += "<tr><td>" + relnArray[index].description + "</td><td><input type=\"button\" class=\"btn btn-default\" value=\"delete\" onclick=\"deleteReln("+relnArray[index].id+")\"></td></tr>";
+                }
+
+                tableCode += "</table>"
+
+                document.getElementById("scratch").innerHTML = tableCode;
             }
         </script>         
     </body>
