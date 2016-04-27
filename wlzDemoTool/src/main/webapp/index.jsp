@@ -31,7 +31,7 @@
                     <br />
                     <span><b>Distance</b></span>
                     <div class="input-group">                        
-                        <input id="dstSlider" type="range" class="form-control" max="200" min="0" step="20" value="150" onchange="updateDST()" />
+                        <input id="dstSlider" type="range" class="form-control" max="200" min="0" step="10" value="150" onchange="updateDST()" />
                         <span id="dstValue" class="input-group-addon">150</span>
                     </div> 
 
@@ -45,7 +45,7 @@
 
                     <span><b>Yaw</b></span>
                     <div class="input-group">
-                        <input id="yawSlider" type="range" class="form-control" max="200" min="0" step="20" value="90" onchange="updateYAW()" />
+                        <input id="yawSlider" type="range" class="form-control" max="200" min="0" step="10" value="90" onchange="updateYAW()" />
                         <span id="yawValue" class="input-group-addon">90</span>
                     </div>                    
 
@@ -53,10 +53,16 @@
 
                     <span><b>Pitch</b></span>
                     <div class="input-group">                        
-                        <input id="pitSlider" type="range" class="form-control" max="200" min="0" step="20" value="90" onchange="updatePIT()" />
+                        <input id="pitSlider" type="range" class="form-control" max="200" min="0" step="10" value="90" onchange="updatePIT()" />
                         <span id="pitValue" class="input-group-addon" >90</span>
-                    </div>                      
+                    </div>    
 
+                    <br /> 
+
+                    <span><b>Reset position</b></span>
+                    <div class="input-group">
+                        <input type="button" class="btn btn-default" id="resetPosButton" value="reset" onclick="resetPosition()">                    
+                    </div>
 
                     <!--
                     <br />
@@ -89,6 +95,9 @@
                         <option value="0" selected="true">none</option>
                         <option value="disjoint">disconnected with the</option>                        
                         <option value="encloses">encloses the</option>   
+                        <option value="partial">overlaps the</option>
+                        <option value="tangential">is a tangential part of the</option>
+                        <option value="non-tangential">is a non-tangential part of the</option>
                     </select>                      
                 </div>
                 <div class="col-md-2">
@@ -135,29 +144,27 @@
 
         <div class="container">
             <div class="row">                
-                <div class="col-md-6">
-                    <span><b>Image being displayed:</b> </span><span id="url">http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png</span>
-                </div>      
-            </div>
-            <div class="row">                
                 <div class="col-md-4">
                     &nbsp;
                 </div>
                 <div class="col-md-2">
-                    <input type="button" class="btn btn-default" id="resetButton" value="reset" onclick="resetImage()">                    
+                    <input type="button" class="btn btn-default" id="resetButton" value="reset" onclick="resetAll()">                    
                 </div>
                 <div class="col-md-2">
                     <input type="button" class="btn btn-default" id="submitButton" value="submit" onclick="updateImage()">                    
                 </div>
-
             </div>
+            
+            <br />
+            
+            <div class="row">                
+                <div class="col-md-6">
+                    <span><b><em>Debug info to be later hidden!</em></b></span>
+                    <span><b>Image being displayed:</b> </span><span id="url">http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png</span>
+                </div>      
+            </div>            
         </div>
         <script>
-            var originalURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
-            var originalDST = 150;
-            var originalPIT = 90;
-            var originalYAW = 90;
-            // var newTissue = "0";
             var newDST = 150;
             var newPIT = 90;
             var newYAW = 90;
@@ -185,38 +192,36 @@
 
             function updateImage() {
                 var description = "";
-                for (index = 0; index < relnArray.length; index++) {
-                    description += relnArray[index].reln + ":" + relnArray[index].tissue + "*";
-                }
-                alert(description);
-                var url = "http://localhost:8080/wlzDemoTool/ProcessSD?description=" + description;
+                var url = "";
 
-                var getURL = $.ajax({method: "GET", url: url});
+                if (relnArray.length > 0) {
+                    for (index = 0; index < relnArray.length; index++) {
+                        description += relnArray[index].reln + ":" + relnArray[index].tissue + "*";
+                    }
+                    url = "http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=" + description;
+                    //alert("url: "+url);
+                    var getURL = $.ajax({method: "GET", url: url});
 
-                getURL.done(function (response) {
-                    alert("response:" + response+"*");
-                    newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz" + response + "&CVT=png";
+                    getURL.done(function (response) {
+                        newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz" + response + "&CVT=png";
+                        //alert(newURL);
+                        document.getElementById("url").innerHTML = newURL;
+                        document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
+                    });
 
+                    getURL.fail(function (jqXHR, textStatus) {
+                        console.log(textStatus);
+                    });
+                } else {
+                    newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
                     document.getElementById("url").innerHTML = newURL;
                     document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
-
-                });
-
-                getURL.fail(function (jqXHR, textStatus) {
-                    console.log(textStatus);
-                });
+                }
             }
 
 
-            function resetImage() {
-                alert("reset clicked!");
-                // newDST = 150;
-                // newYAW = 90;
-                // newPIT = 90;
-                // newTissue = "0";
-                counter = 0;
-                relnArray = [];
-
+            // reset orientation of image
+            function resetPosition() {
                 document.getElementById("dstSlider").value = 150;
                 document.getElementById("yawSlider").value = 90;
                 document.getElementById("pitSlider").value = 90;
@@ -224,7 +229,21 @@
                 document.getElementById("dstValue").innerHTML = "150";
                 document.getElementById("yawValue").innerHTML = "90";
                 document.getElementById("pitValue").innerHTML = "90";
-                // document.getElementById("tissueSelect").value = "0";
+
+                newDST = 150;
+                newPIT = 90;
+                newYAW = 90;
+
+                updateImage();
+            }
+
+
+            function resetAll() {
+                resetPosition();
+
+                counter = 0;
+                relnArray = [];
+                newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
 
                 document.getElementById("relnSelect").value = "0";
                 document.getElementById("relnTissueSelect").value = "0";
@@ -243,7 +262,18 @@
                 } else if (relnTissue === "0") {
                     alert("Please enter a tissue");
                 } else {
-                    var relnDescription = "ROI is " + relationship + " " + relnTissue;
+                    var relnDescription = "";
+                    if(relationship === "partial") {
+                        relnDescription = "ROI partially overlaps " + relnTissue;
+                    } else if(relationship === "encloses") {
+                        relnDescription = "ROI encloses " + relnTissue;
+                    } else if(relationship === "disjoint") {
+                        relnDescription = "ROI is disjoint from " + relnTissue;
+                    } else if(relationship === "tangential") {
+                        relnDescription = "ROI is a tangential part of " + relnTissue;
+                    } else if(relationship === "non-tangential") {
+                        relnDescription = "ROI is a non-tangential part of " + relnTissue;
+                    }
                     var relnObject = {id: counter++, description: relnDescription, tissue: relnTissue, reln: relationship};
                     relnArray.push(relnObject);
                     document.getElementById("relnSelect").value = "0";

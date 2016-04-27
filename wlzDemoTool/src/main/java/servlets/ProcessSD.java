@@ -34,12 +34,14 @@ public class ProcessSD extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         String outputText = "&sel=0";
         try (PrintWriter out = response.getWriter()) {
             String description = request.getParameter("description");
 
             ArrayList<String> disconnectedList = new ArrayList<>();
             ArrayList<String> enclosesList = new ArrayList<>();
+            ArrayList<String> nonTList = new ArrayList<>();
 
             StringTokenizer st = new StringTokenizer(description, "*");
             while (st.hasMoreTokens()) {
@@ -48,10 +50,22 @@ public class ProcessSD extends HttpServlet {
                 String label = st2.nextToken();
                 if (label.equalsIgnoreCase("disjoint")) {
                     disconnectedList.add(st2.nextToken());
-                }
+                } 
                 if (label.equalsIgnoreCase("encloses")) {
                     enclosesList.add(st2.nextToken());
+                } 
+                if (label.equalsIgnoreCase("partial")) {
+                    // we have no way of knowing what part of the structure is 
+                    // partially overlapped, so we take the whole structure
+                    // hence behaviour is the same as encloses
+                    enclosesList.add(st2.nextToken());
+                } 
+                if (label.equalsIgnoreCase("tangential")) {
+                    enclosesList.add(st2.nextToken());
                 }
+                if (label.equalsIgnoreCase("non-tangential")) {
+                    nonTList.add(st2.nextToken());
+                }                
             }
 
             // process disconnected list
@@ -69,7 +83,7 @@ public class ProcessSD extends HttpServlet {
                     outputText += convertTissueToNumber(disconnectedList.get(0)) + ")";
                 }
             }
-            */
+             */
             if (disconnectedList.size() == 1) {
                 outputText += "&sel=" + convertTissueToNumber(disconnectedList.get(0)) + ",255,0,0";
             } else if (disconnectedList.size() > 0) {
@@ -79,7 +93,7 @@ public class ProcessSD extends HttpServlet {
                 }
                 outputText = outputText.substring(0, outputText.length() - 1);
                 outputText += "),255,0,0";
-            }            
+            }
 
             // process encloses list
             if (enclosesList.size() == 1) {
@@ -92,6 +106,18 @@ public class ProcessSD extends HttpServlet {
                 outputText = outputText.substring(0, outputText.length() - 1);
                 outputText += "),0,255,0";
             }
+            
+            // process non-tangential list
+            if (nonTList.size() == 1) {
+                outputText += "&sel=erosion(" + convertTissueToNumber(nonTList.get(0)) + ",2),0,255,0";
+            } else if (nonTList.size() > 0) {
+                outputText += "&sel=erosion(union(";
+                for (String temp : nonTList) {
+                    outputText += convertTissueToNumber(temp) + ",";
+                }
+                outputText = outputText.substring(0, outputText.length() - 1);
+                outputText += "),2),0,255,0";
+            }            
 
             out.print(outputText.trim());
         }
