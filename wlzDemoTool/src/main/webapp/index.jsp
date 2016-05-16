@@ -59,6 +59,13 @@
 
                     <br /> 
 
+                    <span><b>Slowly rotate mouse</b></span>
+                    <div class="input-group">
+                        <input type="button" class="btn btn-default" id="rotateButton" value="rotate" onclick="rotatePosition()">                    
+                    </div>          
+
+                    <br />
+
                     <span><b>Reset position</b></span>
                     <div class="input-group">
                         <input type="button" class="btn btn-default" id="resetPosButton" value="reset" onclick="resetPosition()">                    
@@ -128,6 +135,58 @@
             </div>
         </div>
 
+        <br />
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <span><b>Describe the position of the ROI</b></span>
+                </div>            
+            </div>
+            <div class="col-md-2">
+                <select id="relnTissueSelect2" class="form-control" default="0">
+                    <option value="0" selected="true">none</option>                        
+                    <option value="diencephalon">diencephalon</option>                        
+                    <option value="eye">eye</option>
+                    <option value="heart">heart</option>
+                    <option value="hyoid arch">hyoid arch</option>
+                    <option value="liver">liver</option>          
+                    <option value="mandibular arch">mandibular arch</option>
+                    <option value="mesencephalon">mesencephalon</option>
+                    <option value="metencephalon">metencephalon</option>                        
+                    <option value="neural tube">neural tube</option>              
+                    <option value="olfactory placode">olfactory placode</option>
+                    <option value="otic pit">otic pit</option>
+                    <option value="rathke pouch">rathke pouch</option>
+                    <option value="tail bud">tail bud</option>
+                    <option value="telencephalon">telencephalon</option>                        
+                </select>                     
+            </div>            
+            <div class="row">
+                <div class="col-md-2">                    
+                    is
+                </div>
+                <div class="col-md-2">
+                    <select id="relnSelect2" class="form-control" default="0">
+                        <option value="0" selected="true">none</option>
+                        <!-- <option value="caudal">caudal</option>
+                        <option value="cranial">cranial</option> -->
+                        <option value="dorsal">dorsal</option>
+                        <!-- <option value="left">left</option>
+                        <option value="right">right</option> -->
+                        <option value="ventral">ventral</option>
+                    </select>                      
+                </div>
+                <div class="col-md-2">
+                    to ROI.
+                </div>
+
+                <div class="col-md-2">
+                    <input type="button" class="btn btn-default" id="reln2Button" value="Add" onclick="addReln2()">                    
+                </div>
+            </div>
+        </div>        
+
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
@@ -154,9 +213,9 @@
                     <input type="button" class="btn btn-default" id="submitButton" value="submit" onclick="updateImage()">                    
                 </div>
             </div>
-            
+
             <br />
-            
+
             <div class="row">                
                 <div class="col-md-6">
                     <span><b><em>Debug info to be later hidden!</em></b></span>
@@ -190,15 +249,29 @@
                 updateImage();
             }
 
+            function rotatePosition() {
+                var oldYaw = document.getElementById("yawSlider").value;
+                newYaw = 0;
+                updateImage();
+                for (var index2 = 0; index2 < 180; index2++) {
+                    newYaw = index2;
+                    //updateImage();
+                    var t = setTimeout(updateImage, 500);
+                }
+                newYaw = oldYaw;
+                updateImage();
+            }
+
             function updateImage() {
                 var description = "";
                 var url = "";
 
                 if (relnArray.length > 0) {
-                    for (index = 0; index < relnArray.length; index++) {
+                    for (var index = 0; index < relnArray.length; index++) {
                         description += relnArray[index].reln + ":" + relnArray[index].tissue + "*";
                     }
-                    url = "http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=" + description;
+                    url = "http://localhost:8080/wlzDemoTool/ProcessSD?description=" + description;
+                    //url = "http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=" + description;
                     //alert("url: "+url);
                     var getURL = $.ajax({method: "GET", url: url});
 
@@ -247,6 +320,8 @@
 
                 document.getElementById("relnSelect").value = "0";
                 document.getElementById("relnTissueSelect").value = "0";
+                document.getElementById("relnSelect2").value = "0";
+                document.getElementById("relnTissueSelect2").value = "0";                
                 document.getElementById("scratch").innerHTML = "";
 
                 document.getElementById("iip_image").innerHTML = "<img src=\"http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png\"/>";
@@ -263,15 +338,15 @@
                     alert("Please enter a tissue");
                 } else {
                     var relnDescription = "";
-                    if(relationship === "partial") {
+                    if (relationship === "partial") {
                         relnDescription = "ROI partially overlaps " + relnTissue;
-                    } else if(relationship === "encloses") {
+                    } else if (relationship === "encloses") {
                         relnDescription = "ROI encloses " + relnTissue;
-                    } else if(relationship === "disjoint") {
+                    } else if (relationship === "disjoint") {
                         relnDescription = "ROI is disjoint from " + relnTissue;
-                    } else if(relationship === "tangential") {
+                    } else if (relationship === "tangential") {
                         relnDescription = "ROI is a tangential part of " + relnTissue;
-                    } else if(relationship === "non-tangential") {
+                    } else if (relationship === "non-tangential") {
                         relnDescription = "ROI is a non-tangential part of " + relnTissue;
                     }
                     var relnObject = {id: counter++, description: relnDescription, tissue: relnTissue, reln: relationship};
@@ -281,11 +356,41 @@
                     createTable();
                 }
             }
+            
+           function addReln2() {
+                var relationship = document.getElementById("relnSelect2").value;
+                var relnTissue = document.getElementById("relnTissueSelect2").value;
+                if (relationship === "0") {
+                    alert("Please enter a relationship");
+                } else if (relnTissue === "0") {
+                    alert("Please enter a tissue");
+                } else {
+                    var relnDescription = "";
+                    if (relationship === "cranial") {
+                        relnDescription = relnTissue + " is cranial to ROI";
+                    } else if (relationship === "caudal") {
+                        relnDescription = relnTissue + " is caudal to ROI";
+                    } else if(relationship === "dorsal") {
+                        relnDescription = relnTissue + " is dorsal to ROI";
+                    } else if(relationship === "ventral") {
+                        relnDescription = relnTissue + " is ventral to ROI";
+                    } else if(relationship === "left") {
+                        relnDescription = relnTissue + " is left of ROI";
+                    } else if(relationship === "right") {
+                        relnDescription = relnTissue + " is right of ROI";
+                    }
+                    var relnObject = {id: counter++, description: relnDescription, tissue: relnTissue, reln: relationship};
+                    relnArray.push(relnObject);
+                    document.getElementById("relnSelect").value = "0";
+                    document.getElementById("relnTissueSelect").value = "0";
+                    createTable();
+                }
+            }            
 
             function deleteReln(id) {
-                for (index = 0; index < relnArray.length; index++) {
-                    if (relnArray[index].id === id) {
-                        relnArray.splice(index, 1);
+                for (var index3 = 0; index3 < relnArray.length; index3++) {
+                    if (relnArray[index3].id === id) {
+                        relnArray.splice(index3, 1);
                     }
                 }
                 createTable();
@@ -294,8 +399,8 @@
             function createTable() {
                 var tableCode = "<table class=\"table table-striped\"><thead><tr><td>Description</td><td>Delete?</td></tr></thead>";
 
-                for (index = 0; index < relnArray.length; index++) {
-                    tableCode += "<tr><td>" + relnArray[index].description + "</td><td><input type=\"button\" class=\"btn btn-default\" value=\"delete\" onclick=\"deleteReln(" + relnArray[index].id + ")\"></td></tr>";
+                for (var index4 = 0; index4 < relnArray.length; index4++) {
+                    tableCode += "<tr><td>" + relnArray[index4].description + "</td><td><input type=\"button\" class=\"btn btn-default\" value=\"delete\" onclick=\"deleteReln(" + relnArray[index4].id + ")\"></td></tr>";
                 }
 
                 tableCode += "</table>"
