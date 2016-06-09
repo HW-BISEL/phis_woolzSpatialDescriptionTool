@@ -29,20 +29,16 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ProcessSD", urlPatterns = {"/ProcessSD"})
 public class ProcessSD extends HttpServlet {
 
-    Integer x_min = 10000;
-    Integer x_max = -10000;
-    Integer y_min = 10000;
-    Integer y_max = -10000;
-    Integer z_min = 10000;
-    Integer z_max = -10000;
+    Integer ventral = 0;
+    Integer dorsal = 0;
+    Integer cranial = 0;
+    Integer caudal = 0;
+    Integer right = 0;
+    Integer left = 0;
 
     
-    String current_x_min;
-    String current_x_max;
-    String current_y_min;
-    String current_y_max;    
-    String current_z_min;
-    String current_z_max;    
+    String start_pos;
+    String stop_pos;
 
     
     /**
@@ -61,7 +57,7 @@ public class ProcessSD extends HttpServlet {
         String outputText = "&sel=0";
         try (PrintWriter out = response.getWriter()) {
             String description = request.getParameter("description");
-            out.println(description);
+            //out.println(description);
 
             ArrayList<String> disconnectedList = new ArrayList<>();
             ArrayList<String> enclosesList = new ArrayList<>();
@@ -72,15 +68,15 @@ public class ProcessSD extends HttpServlet {
             ArrayList<String> caudalList = new ArrayList<>();
             ArrayList<String> leftList = new ArrayList<>();
             ArrayList<String> rightList = new ArrayList<>();
-            x_min = 10000;
-            x_max = -10000;
-            y_min = 10000;
-            y_max = -10000;
-            z_min = 10000;
-            z_max = -10000;
+            ventral = -198;
+            dorsal = 69;
+            cranial = 0;
+            caudal = 1599;
+            right = -123;
+            left = 120;
 
             StringTokenizer st = new StringTokenizer(description, "*");
-            out.println(st.countTokens());
+            //out.println(st.countTokens());
             while (st.hasMoreTokens()) {
                 String temp = st.nextToken();
                 //out.println(temp);
@@ -115,10 +111,16 @@ public class ProcessSD extends HttpServlet {
                 if (label.equalsIgnoreCase("cranial")) {
                     cranialList.add(tissue);
                 }
-                if (label.equalsIgnoreCase("caudal")) {
+                if (label.equalsIgnoreCase("caudal")) {                    
                     caudalList.add(tissue);
                 }
-                
+                if (label.equalsIgnoreCase("left")) {
+                    leftList.add(tissue);
+                }
+                if (label.equalsIgnoreCase("right")) {                    
+                    rightList.add(tissue);
+                }
+                                
             }
 
             // process disconnected list
@@ -171,7 +173,7 @@ public class ProcessSD extends HttpServlet {
                 outputText = outputText.substring(0, outputText.length() - 1);
                 outputText += "),2),0,255,0";
             }
-
+            
             if (dorsalList.size() > 0) {                
                 for (String name : dorsalList) {
                     String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(" + convertTissueToNumber(name) + ",45)&OBJ=Wlz-Grey-Stats";                    
@@ -179,13 +181,13 @@ public class ProcessSD extends HttpServlet {
                     if (!result) {
                         break;
                     }
-                    Integer temp = new Integer(current_x_min);
-                    if (temp < x_min) {
-                        x_min = temp;
+                    Integer temp = new Integer(stop_pos);
+                    if (temp < dorsal) {
+                        dorsal = temp;
                     }
                     // only need min for dorsal
-                }
-                outputText += "";
+                    outputText += "&sel=domain(threshold(45,"+dorsal+",ge)),255,0,0,128";
+                }                
             }
             if (ventralList.size() > 0) {                
                 for (String name : ventralList) {
@@ -194,13 +196,13 @@ public class ProcessSD extends HttpServlet {
                     if (!result) {
                         break;
                     }
-                    Integer temp = new Integer(current_x_max);
-                    if (temp < x_max) {
-                        x_max = temp;
+                    Integer temp = new Integer(start_pos);
+                    if (temp > ventral) {
+                        ventral = temp;
                     }
                     // only need max for ventral
-                }
-                outputText += "";
+                    outputText += "&sel=domain(threshold(45,"+ventral+",le)),255,0,0,128";
+                }                
             }
             
             if (cranialList.size() > 0) {                
@@ -210,27 +212,28 @@ public class ProcessSD extends HttpServlet {
                     if (!result) {
                         break;
                     }
-                    Integer temp = new Integer(current_y_min);
-                    if (temp < y_min) {
-                        y_min = temp;
+                    Integer temp = new Integer(start_pos);
+                    if (temp > cranial) {
+                        cranial = temp;
                     }
                     // only need max for ventral
                 }
-                outputText += "";
-            }            
-            if (caudalList.size() > 0) {                
+                outputText += "&sel=domain(threshold(46,"+cranial+",le)),255,0,0,128";
+            }   
+                        
+            if (caudalList.size() > 0) {                    
                 for (String name : caudalList) {
                     String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(" + convertTissueToNumber(name) + ",46)&OBJ=Wlz-Grey-Stats";                    
-                    boolean result = talk(url, out);
-                    if (!result) {
+                    boolean result = talk(url, out);                    
+                    if (!result) {                        
                         break;
-                    }
-                    Integer temp = new Integer(current_y_max);
-                    if (temp < y_max) {
-                        y_max = temp;
+                    }                    
+                    Integer temp = new Integer(stop_pos);                    
+                    if (temp < caudal) {
+                        caudal = temp;
                     }                    
                 }
-                outputText += "";
+                outputText += "&sel=domain(threshold(46,"+caudal+",ge)),255,0,0,128";
             }            
 
             if (leftList.size() > 0) {                
@@ -240,12 +243,12 @@ public class ProcessSD extends HttpServlet {
                     if (!result) {
                         break;
                     }
-                    Integer temp = new Integer(current_z_min);
-                    if (temp < z_min) {
-                        z_min = temp;
+                    Integer temp = new Integer(stop_pos);
+                    if (temp < left) {
+                        left = temp;
                     }                   
                 }
-                outputText += "";
+                outputText += "&sel=domain(threshold(47,"+left+",ge)),255,0,0,128";
             }            
             if (rightList.size() > 0) {                
                 for (String name : rightList) {
@@ -254,12 +257,12 @@ public class ProcessSD extends HttpServlet {
                     if (!result) {
                         break;
                     }
-                    Integer temp = new Integer(current_z_max);
-                    if (temp < z_max) {
-                        z_max = temp;
+                    Integer temp = new Integer(start_pos);
+                    if (temp > right) {
+                        right = temp;
                     }                   
                 }
-                outputText += "";
+                outputText += "&sel=domain(threshold(47,"+right+",le)),255,0,0,128";
             }             
 
             out.print(outputText.trim());
@@ -290,8 +293,8 @@ public class ProcessSD extends HttpServlet {
             StringTokenizer st = new StringTokenizer(input.readLine());
             st.nextToken();
             st.nextToken();
-            current_x_min = st.nextToken();
-            current_x_max = st.nextToken();
+            start_pos = st.nextToken();
+            stop_pos = st.nextToken();
             input.close();
             temp.delete();
             return true;

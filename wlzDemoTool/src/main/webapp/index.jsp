@@ -61,7 +61,7 @@
 
                     <span><b>Slowly rotate mouse</b></span>
                     <div class="input-group">
-                        <input type="button" class="btn btn-default" id="rotateButton" value="rotate" onclick="rotatePosition()">                    
+                        <input type="button" class="btn btn-default" id="rotateButton" value="rotate" onclick="rotatePosition()" disabled="disabled">                    
                     </div>          
 
                     <br />
@@ -169,11 +169,11 @@
                 <div class="col-md-2">
                     <select id="relnSelect2" class="form-control" default="0">
                         <option value="0" selected="true">none</option>
-                        <!-- <option value="caudal">caudal</option>
-                        <option value="cranial">cranial</option> -->
+                        <option value="caudal">caudal</option>
+                        <!--<option value="cranial">cranial</option>-->
                         <option value="dorsal">dorsal</option>
-                        <!-- <option value="left">left</option>
-                        <option value="right">right</option> -->
+                        <option value="left">left</option>
+                        <option value="right">right</option>
                         <option value="ventral">ventral</option>
                     </select>                      
                 </div>
@@ -270,8 +270,8 @@
                     for (var index = 0; index < relnArray.length; index++) {
                         description += relnArray[index].reln + ":" + relnArray[index].tissue + "*";
                     }
-                    url = "http://localhost:8080/wlzDemoTool/ProcessSD?description=" + description;
-                    //url = "http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=" + description;
+                    //url = "http://localhost:8080/wlzDemoTool/ProcessSD?description=" + description;
+                    url = "http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=" + description;
                     //alert("url: "+url);
                     var getURL = $.ajax({method: "GET", url: url});
 
