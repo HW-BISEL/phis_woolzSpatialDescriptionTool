@@ -294,16 +294,16 @@
             
             function rearPosition() {
                 document.getElementById("dstSlider").value = 30;
-                document.getElementById("yawSlider").value = 130;
+                document.getElementById("yawSlider").value = 140;
                 document.getElementById("pitSlider").value = 90;
 
                 document.getElementById("dstValue").innerHTML = "30";
-                document.getElementById("yawValue").innerHTML = "130";
+                document.getElementById("yawValue").innerHTML = "140";
                 document.getElementById("pitValue").innerHTML = "90";
 
                 newDST = 30;
                 newPIT = 90;
-                newYAW = 130;
+                newYAW = 140;
                 
                 updateImage();
             }            
