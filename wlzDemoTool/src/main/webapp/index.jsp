@@ -65,7 +65,15 @@
                     </div>          
 
                     <br />
-
+                    
+                    <span><b>Choose a side</b></span>
+                    <div class="input-group">
+                        <input type="button" class="btn btn-default" id="leftButton" value="left" onclick="leftPosition()">
+                        <input type="button" class="btn btn-default" id="leftButton" value="rear" onclick="rearPosition()">                        
+                    </div>
+                    
+                    <br />
+                    
                     <span><b>Reset position</b></span>
                     <div class="input-group">
                         <input type="button" class="btn btn-default" id="resetPosButton" value="reset" onclick="resetPosition()">                    
@@ -187,6 +195,8 @@
             </div>
         </div>        
 
+        <br />
+        
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
@@ -215,7 +225,9 @@
             </div>
 
             <br />
-
+            <hr />
+            <br />
+            
             <div class="row">                
                 <div class="col-md-6">
                     <span><b><em>Debug info to be later hidden!</em></b></span>
@@ -261,6 +273,41 @@
                 newYaw = oldYaw;
                 updateImage();
             }
+
+
+            function leftPosition() {
+                document.getElementById("dstSlider").value = 200;
+                document.getElementById("yawSlider").value = 70;
+                document.getElementById("pitSlider").value = 90;
+
+                document.getElementById("dstValue").innerHTML = "200";
+                document.getElementById("yawValue").innerHTML = "70";
+                document.getElementById("pitValue").innerHTML = "90";
+
+                newDST = 200;
+                newPIT = 90;
+                newYAW = 70;
+                
+                updateImage();
+            }
+            
+            
+            function rearPosition() {
+                document.getElementById("dstSlider").value = 30;
+                document.getElementById("yawSlider").value = 130;
+                document.getElementById("pitSlider").value = 90;
+
+                document.getElementById("dstValue").innerHTML = "30";
+                document.getElementById("yawValue").innerHTML = "130";
+                document.getElementById("pitValue").innerHTML = "90";
+
+                newDST = 30;
+                newPIT = 90;
+                newYAW = 130;
+                
+                updateImage();
+            }            
+
 
             function updateImage() {
                 var description = "";
