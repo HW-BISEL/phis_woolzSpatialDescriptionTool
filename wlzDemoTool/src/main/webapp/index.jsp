@@ -178,7 +178,7 @@
                     <select id="relnSelect2" class="form-control" default="0">
                         <option value="0" selected="true">none</option>
                         <option value="caudal">caudal</option>
-                        <option value="cranial">cranial</option>
+                        <option value="cranial">cranial</option>    
                         <option value="dorsal">dorsal</option>
                         <option value="left">left</option>
                         <option value="right">right</option>
