@@ -176,7 +176,7 @@ public class ProcessSD extends HttpServlet {
             
             if (dorsalList.size() > 0) {                
                 for (String name : dorsalList) {
-                    String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(" + convertTissueToNumber(name) + ",45)&OBJ=Wlz-Grey-Stats";                    
+                    String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(intersect(45," + convertTissueToNumber(name) + "),45)&OBJ=Wlz-Grey-Stats";                    
                     boolean result = talk(url, out);
                     if (!result) {
                         break;
@@ -191,7 +191,7 @@ public class ProcessSD extends HttpServlet {
             }
             if (ventralList.size() > 0) {                
                 for (String name : ventralList) {
-                    String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(" + convertTissueToNumber(name) + ",45)&OBJ=Wlz-Grey-Stats";                    
+                    String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(intersect(45," + convertTissueToNumber(name) + "),45)&OBJ=Wlz-Grey-Stats";                    
                     boolean result = talk(url, out);
                     if (!result) {
                         break;
@@ -207,7 +207,7 @@ public class ProcessSD extends HttpServlet {
             
             if (cranialList.size() > 0) {                
                 for (String name : cranialList) {
-                    String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(" + convertTissueToNumber(name) + ",46)&OBJ=Wlz-Grey-Stats";                    
+                    String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(intersect(46," + convertTissueToNumber(name) + "),46)&OBJ=Wlz-Grey-Stats";                    
                     boolean result = talk(url, out);
                     if (!result) {
                         break;
@@ -223,7 +223,7 @@ public class ProcessSD extends HttpServlet {
                         
             if (caudalList.size() > 0) {                    
                 for (String name : caudalList) {
-                    String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(" + convertTissueToNumber(name) + ",46)&OBJ=Wlz-Grey-Stats";                    
+                    String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(intersect(46," + convertTissueToNumber(name) + "),46)&OBJ=Wlz-Grey-Stats";                    
                     boolean result = talk(url, out);                    
                     if (!result) {                        
                         break;
@@ -238,7 +238,7 @@ public class ProcessSD extends HttpServlet {
 
             if (leftList.size() > 0) {                
                 for (String name : leftList) {
-                    String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(" + convertTissueToNumber(name) + ",47)&OBJ=Wlz-Grey-Stats";                    
+                    String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(intersect(47," + convertTissueToNumber(name) + "),47)&OBJ=Wlz-Grey-Stats";                    
                     boolean result = talk(url, out);
                     if (!result) {
                         break;
@@ -252,7 +252,7 @@ public class ProcessSD extends HttpServlet {
             }            
             if (rightList.size() > 0) {                
                 for (String name : rightList) {
-                    String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(" + convertTissueToNumber(name) + ",47)&OBJ=Wlz-Grey-Stats";                    
+                    String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(intersect(47," + convertTissueToNumber(name) + "),47)&OBJ=Wlz-Grey-Stats";                    
                     boolean result = talk(url, out);
                     if (!result) {
                         break;
