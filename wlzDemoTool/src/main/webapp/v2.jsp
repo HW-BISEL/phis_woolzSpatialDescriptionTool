@@ -87,14 +87,14 @@
                 <select id="tissueSelect" onchange="updateImage()" class="form-control" default="0">
                     <option value="0" selected="true">none</option>
                     <option value="22">heart</option>
-                    <option value="3">liver</option>
+                    <option value="3">liver</option>    
                 </select>      
                 
             </div>   
                 -->
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <h2>Instructions</h2>
-                    <p>This tool allows you to define a ROI by describing the space NOT in the ROI.</p>
+                    <p>This tool allows you to define a ROI by describing the space <strong>NOT</strong> in the ROI.</p>
                     <p>Use the form below to remove (turn red) areas of the mouse that are not in your region of interest.</p>
                     <br />
 
@@ -104,6 +104,14 @@
                         <input type="button" class="btn btn-default" id="leftButton" value="left" onclick="leftPosition()">
                         <input type="button" class="btn btn-default" id="leftButton" value="rear" onclick="rearPosition()">                        
                     </div>
+                    <br />
+
+                    <span><b>Distance control</b></span>
+                    <p>Move across the embryo:</p>
+                    <div class="input-group">                        
+                        <input id="dstSlider" type="range" class="form-control" max="350" min="0" step="20" value="200" onchange="updateDST()" />
+                        <span id="dstValue" class="input-group-addon">200</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -112,10 +120,10 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
-                    <span><b>Describe the position of the ROI</b></span>
-                    <p>Create statements of the form: <strong>ROI is <i>relationship</i> the <i>tissue</i></strong>.</p>
-                    <p>For example, the ROI is disconnected with the heart; the heart will be turned red because it is not part of our ROI.</p>
+                <div class="col-md-10">
+                    <span><b>Remove areas of space by saying the ROI is not there</b></span>
+                    <p>Create statements of the form: <strong>ROI is <i>disconnected with</i> the <i>tissue</i></strong>.</p>
+                    <p>For example, the ROI is disconnected with the heart; the heart will be turned red.</p>
                 </div>            
             </div>
             <div class="row">
@@ -134,7 +142,7 @@
                         -->
                     </select>                      
                 </div>
-                
+
                 <div class="col-md-1">                    
                     the  
                 </div> 
@@ -164,23 +172,20 @@
             </div>
         </div>
 
-        <br />
-        <hr />
-        <br />
+        <br />                
 
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
-                    <span><b>Remove areas of space by saying the ROI is not there</b></span>
+                <div class="col-md-10">
                     <p>Create statements of the form: <strong>ROI is not <i>relationship</i> to the <i>tissue</i></strong>.</p>
-                    <p>For example, the ROI is not cranial to the heart; everything cranial to the heart will be turned red.</p>
-                </div>            
+                    <p>For example, the ROI is not cranial to the heart; everything cranial to the heart will be turned red.</p>                
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-1">                    
                     ROI is not 
                 </div>                
-                
+
                 <div class="col-md-2">
                     <select id="relnSelect2" class="form-control" default="0">
                         <option value="0" selected="true">none</option>
@@ -192,12 +197,12 @@
                         <option value="ventral">ventral</option>
                     </select>                      
                 </div>
-                
+
                 <div class="col-md-1">                    
                     to the  
                 </div>                
-                
-                
+
+
                 <div class="col-md-2">
                     <select id="relnTissueSelect2" class="form-control" default="0">
                         <option value="0" selected="true">none</option>                        
@@ -230,207 +235,207 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <span><b>Spatial Description</b></span>
                     <p>You have created the following spatial description of the area outside the ROI:</p>
                     <div id="scratch">
-
+                        <p>No description yet!
                     </div>
                 </div>
             </div>
         </div>
 
-
+        <br />
+        <hr />
         <br />
 
         <div class="container">
             <div class="row">                
-                <div class="col-md-4">
+                <div class="col-md-8">
                     &nbsp;
                 </div>
-                <div class="col-md-1">
-                    <input type="button" class="btn btn-default" id="resetButton" value="reset" onclick="resetAll()">                    
-                </div>
-                <div class="col-md-1">
-                    &nbsp;
-                </div>
-                <div class="col-md-1">
-                    <input type="button" class="btn btn-default" id="submitButton" value="submit" onclick="updateImage()">                    
+                <div class="col-md-2">
+                    <span><b>To reset everything</b></span>   
+                    <input type="button" class="btn btn-default" id="resetButton" value="reset" onclick="resetAll()">                                         
                 </div>
             </div>
-
-            <br />
-            <hr />
-            <br />
-
-            <div class="row">                
-                <div class="col-md-6">
-                    <span><b><em>Debug info to be later hidden!</em></b></span>
-                    <span><b>Image being displayed:</b> </span><span id="url">http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png</span>
-                </div>      
-            </div>            
         </div>
-        <script>
-            var newDST = 200;
-            var newPIT = 90;
-            var newYAW = 70;
-            var newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
-            var counter = 0;
-            var relnArray = [];
+         
+
+        <br />
+        <hr />
+        <br />
+        <!--
+        <div class="row">                
+            <div class="col-md-6">
+                <span><b><em>Debug info to be later hidden!</em></b></span>
+                <span><b>Image being displayed:</b> </span><span id="url">http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png</span>
+            </div>      
+        </div>      
+        -->
+    </div>
+    <script>
+        var newDST = 200;
+        var newPIT = 90;
+        var newYAW = 70;
+        var newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
+        var counter = 0;
+        var relnArray = [];
 
 
-            function leftPosition() {
-                newDST = 200;
-                newPIT = 90;
-                newYAW = 70;
+        function leftPosition() {
+            newDST = 200;
+            newPIT = 90;
+            newYAW = 70;
 
-                updateImage();
-            }
-
-
-            function rearPosition() {
-                newDST = 30;
-                newPIT = 90;
-                newYAW = 140;
-
-                updateImage();
-            }
+            updateImage();
+        }
 
 
-            function updateImage() {
-                var description = "";
-                var url = "";
+        function rearPosition() {
+            newDST = 30;
+            newPIT = 90;
+            newYAW = 140;
 
-                if (relnArray.length > 0) {
-                    for (var index = 0; index < relnArray.length; index++) {
-                        description += relnArray[index].reln + ":" + relnArray[index].tissue + "*";
-                    }
-                    //url = "http://localhost:8080/wlzDemoTool/ProcessSD?description=" + description;
-                    url = "http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=" + description;
-                    //alert("url: "+url);
-                    var getURL = $.ajax({method: "GET", url: url});
+            updateImage();
+        }
 
-                    getURL.done(function (response) {
-                        newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz" + response + "&CVT=png";
-                        //alert(newURL);
-                        document.getElementById("url").innerHTML = newURL;
-                        document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
-                    });
+        function updateDST() {
+            newDST = document.getElementById("dstSlider").value;
+            document.getElementById("dstValue").innerHTML = newDST;
+            updateImage();
+        }
 
-                    getURL.fail(function (jqXHR, textStatus) {
-                        console.log(textStatus);
-                    });
-                } else {
-                    newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
+
+        function updateImage() {
+            var description = "";
+            var url = "";
+
+            if (relnArray.length > 0) {
+                for (var index = 0; index < relnArray.length; index++) {
+                    description += relnArray[index].reln + ":" + relnArray[index].tissue + "*";
+                }
+                //url = "http://localhost:8080/wlzDemoTool/ProcessSD?description=" + description;
+                url = "http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=" + description;
+                //alert("url: "+url);
+                var getURL = $.ajax({method: "GET", url: url});
+
+                getURL.done(function (response) {
+                    newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz" + response + "&CVT=png";
+                    //alert(newURL);
                     document.getElementById("url").innerHTML = newURL;
                     document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
+                });
+
+                getURL.fail(function (jqXHR, textStatus) {
+                    console.log(textStatus);
+                });
+            } else {
+                newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
+                document.getElementById("url").innerHTML = newURL;
+                document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
+            }
+        }
+
+
+        function resetAll() {
+            newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
+            counter = 0;
+            relnArray = [];
+
+            document.getElementById("relnSelect").value = "0";
+            document.getElementById("relnTissueSelect").value = "0";
+            document.getElementById("relnSelect2").value = "0";
+            document.getElementById("relnTissueSelect2").value = "0";
+            document.getElementById("scratch").innerHTML = "No description yet!";
+
+            document.getElementById("dstValue").innerHTML = "200";
+            document.getElementById("dstSlider").value = 200;
+
+            leftPosition();
+        }
+
+
+        function addReln() {
+            var relationship = document.getElementById("relnSelect").value;
+            var relnTissue = document.getElementById("relnTissueSelect").value;
+            if (relationship === "0") {
+                alert("Please enter a relationship");
+            } else if (relnTissue === "0") {
+                alert("Please enter a tissue");
+            } else {
+                var relnDescription = "";
+                if (relationship === "partial") {
+                    relnDescription = "ROI partially overlaps " + relnTissue;
+                } else if (relationship === "encloses") {
+                    relnDescription = "ROI encloses " + relnTissue;
+                } else if (relationship === "disjoint") {
+                    relnDescription = "ROI is disjoint from " + relnTissue;
+                } else if (relationship === "tangential") {
+                    relnDescription = "ROI is a tangential part of " + relnTissue;
+                } else if (relationship === "non-tangential") {
+                    relnDescription = "ROI is a non-tangential part of " + relnTissue;
                 }
-            }
-
-
-            // reset orientation of image
-            function resetPosition() {
-                leftPosition();
-
-            }
-
-
-            function resetAll() {
-                resetPosition();
-
-                counter = 0;
-                relnArray = [];
-                newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
-
+                var relnObject = {id: counter++, description: relnDescription, tissue: relnTissue, reln: relationship};
+                relnArray.push(relnObject);
                 document.getElementById("relnSelect").value = "0";
                 document.getElementById("relnTissueSelect").value = "0";
-                document.getElementById("relnSelect2").value = "0";
-                document.getElementById("relnTissueSelect2").value = "0";
-                document.getElementById("scratch").innerHTML = "";
-
-                document.getElementById("iip_image").innerHTML = "<img src=\"http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png\"/>";
-                document.getElementById("url").innerHTML = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
-            }
-
-
-            function addReln() {
-                var relationship = document.getElementById("relnSelect").value;
-                var relnTissue = document.getElementById("relnTissueSelect").value;
-                if (relationship === "0") {
-                    alert("Please enter a relationship");
-                } else if (relnTissue === "0") {
-                    alert("Please enter a tissue");
-                } else {
-                    var relnDescription = "";
-                    if (relationship === "partial") {
-                        relnDescription = "ROI partially overlaps " + relnTissue;
-                    } else if (relationship === "encloses") {
-                        relnDescription = "ROI encloses " + relnTissue;
-                    } else if (relationship === "disjoint") {
-                        relnDescription = "ROI is disjoint from " + relnTissue;
-                    } else if (relationship === "tangential") {
-                        relnDescription = "ROI is a tangential part of " + relnTissue;
-                    } else if (relationship === "non-tangential") {
-                        relnDescription = "ROI is a non-tangential part of " + relnTissue;
-                    }
-                    var relnObject = {id: counter++, description: relnDescription, tissue: relnTissue, reln: relationship};
-                    relnArray.push(relnObject);
-                    document.getElementById("relnSelect").value = "0";
-                    document.getElementById("relnTissueSelect").value = "0";
-                    createTable();
-                }
-            }
-
-            function addReln2() {
-                var relationship = document.getElementById("relnSelect2").value;
-                var relnTissue = document.getElementById("relnTissueSelect2").value;
-                if (relationship === "0") {
-                    alert("Please enter a relationship");
-                } else if (relnTissue === "0") {
-                    alert("Please enter a tissue");
-                } else {
-                    var relnDescription = "";
-                    if (relationship === "cranial") {
-                        relnDescription = relnTissue + " is cranial to ROI";
-                    } else if (relationship === "caudal") {
-                        relnDescription = relnTissue + " is caudal to ROI";
-                    } else if (relationship === "dorsal") {
-                        relnDescription = relnTissue + " is dorsal to ROI";
-                    } else if (relationship === "ventral") {
-                        relnDescription = relnTissue + " is ventral to ROI";
-                    } else if (relationship === "left") {
-                        relnDescription = relnTissue + " is left of ROI";
-                    } else if (relationship === "right") {
-                        relnDescription = relnTissue + " is right of ROI";
-                    }
-                    var relnObject = {id: counter++, description: relnDescription, tissue: relnTissue, reln: relationship};
-                    relnArray.push(relnObject);
-                    document.getElementById("relnSelect").value = "0";
-                    document.getElementById("relnTissueSelect").value = "0";
-                    createTable();
-                }
-            }
-
-            function deleteReln(id) {
-                for (var index3 = 0; index3 < relnArray.length; index3++) {
-                    if (relnArray[index3].id === id) {
-                        relnArray.splice(index3, 1);
-                    }
-                }
                 createTable();
             }
+        }
 
-            function createTable() {
-                var tableCode = "<table class=\"table table-striped\"><thead><tr><td>Description</td><td>Delete?</td></tr></thead>";
-
-                for (var index4 = 0; index4 < relnArray.length; index4++) {
-                    tableCode += "<tr><td>" + relnArray[index4].description + "</td><td><input type=\"button\" class=\"btn btn-default\" value=\"delete\" onclick=\"deleteReln(" + relnArray[index4].id + ")\"></td></tr>";
+        function addReln2() {
+            var relationship = document.getElementById("relnSelect2").value;
+            var relnTissue = document.getElementById("relnTissueSelect2").value;
+            if (relationship === "0") {
+                alert("Please enter a relationship");
+            } else if (relnTissue === "0") {
+                alert("Please enter a tissue");
+            } else {
+                var relnDescription = "";
+                if (relationship === "cranial") {
+                    relnDescription = relnTissue + " is cranial to ROI";
+                } else if (relationship === "caudal") {
+                    relnDescription = relnTissue + " is caudal to ROI";
+                } else if (relationship === "dorsal") {
+                    relnDescription = relnTissue + " is dorsal to ROI";
+                } else if (relationship === "ventral") {
+                    relnDescription = relnTissue + " is ventral to ROI";
+                } else if (relationship === "left") {
+                    relnDescription = relnTissue + " is left of ROI";
+                } else if (relationship === "right") {
+                    relnDescription = relnTissue + " is right of ROI";
                 }
-
-                tableCode += "</table>"
-
-                document.getElementById("scratch").innerHTML = tableCode;
+                var relnObject = {id: counter++, description: relnDescription, tissue: relnTissue, reln: relationship};
+                relnArray.push(relnObject);
+                document.getElementById("relnSelect").value = "0";
+                document.getElementById("relnTissueSelect").value = "0";
+                createTable();
             }
-        </script>         
-    </body>
+        }
+
+        function deleteReln(id) {
+            for (var index3 = 0; index3 < relnArray.length; index3++) {
+                if (relnArray[index3].id === id) {
+                    relnArray.splice(index3, 1);
+                }
+            }
+            createTable();
+        }
+
+        function createTable() {
+            var tableCode = "<table class=\"table table-striped\"><thead><tr><td>Description</td><td>Delete?</td></tr></thead>";
+
+            for (var index4 = 0; index4 < relnArray.length; index4++) {
+                tableCode += "<tr><td>" + relnArray[index4].description + "</td><td><input type=\"button\" class=\"btn btn-default\" value=\"delete\" onclick=\"deleteReln(" + relnArray[index4].id + ")\"></td></tr>";
+            }
+
+            tableCode += "</table>"
+
+            document.getElementById("scratch").innerHTML = tableCode;
+
+            updateImage();
+        }
+    </script>         
+</body>
 </html>
