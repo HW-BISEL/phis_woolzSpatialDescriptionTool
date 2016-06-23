@@ -96,17 +96,19 @@
                     <h2>Instructions</h2>
                     <p>This tool allows you to define a ROI by describing the space <strong>NOT</strong> in the ROI.</p>
                     <p>Use the form below to remove (turn red) areas of the mouse that are not in your region of interest.</p>
+                    
+                    
+                    <hr />
                     <br />
 
-                    <span><b>Choose a side</b></span>
-                    <p>As you colour the embryo, you may find it helpful to have a different view:</p>
+                    <span><b>As you colour the embryo, you may find it helpful to have a different view</b></span>
+                    <p>Choose a side</p>
                     <div class="input-group">
                         <input type="button" class="btn btn-default" id="leftButton" value="left" onclick="leftPosition()">
                         <input type="button" class="btn btn-default" id="leftButton" value="rear" onclick="rearPosition()">                        
                     </div>
                     <br />
-
-                    <span><b>Distance control</b></span>
+                    
                     <p>Move across the embryo:</p>
                     <div class="input-group">                        
                         <input id="dstSlider" type="range" class="form-control" max="350" min="0" step="20" value="200" onchange="updateDST()" />
@@ -117,13 +119,15 @@
         </div>
 
         <br />
+        <hr />
+        <br />
 
         <div class="container">
             <div class="row">
                 <div class="col-md-10">
                     <span><b>Remove areas of space by saying the ROI is not there</b></span>
-                    <p>Create statements of the form: <strong>ROI is <i>disconnected with</i> the <i>tissue</i></strong>.</p>
-                    <p>For example, the ROI is disconnected with the heart; the heart will be turned red.</p>
+                    <p>Create statements of the form: <strong>ROI is <i>disconnected with</i> the <i>tissue</i></strong>.
+                    For example, the ROI is disconnected with the heart; the heart will be turned red.</p>
                 </div>            
             </div>
             <div class="row">
@@ -177,8 +181,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-10">
-                    <p>Create statements of the form: <strong>ROI is not <i>relationship</i> to the <i>tissue</i></strong>.</p>
-                    <p>For example, the ROI is not cranial to the heart; everything cranial to the heart will be turned red.</p>                
+                    <p>Create statements of the form: <strong>ROI is not <i>relationship</i> to the <i>tissue</i></strong>.
+                    For example, the ROI is not cranial to the heart; everything cranial to the heart will be turned red.</p>                
                 </div>
             </div>
             <div class="row">
@@ -265,14 +269,14 @@
         <br />
         <hr />
         <br />
-        <!--
+       
         <div class="row">                
             <div class="col-md-6">
                 <span><b><em>Debug info to be later hidden!</em></b></span>
                 <span><b>Image being displayed:</b> </span><span id="url">http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png</span>
             </div>      
         </div>      
-        -->
+       
     </div>
     <script>
         var newDST = 200;
@@ -394,17 +398,17 @@
             } else {
                 var relnDescription = "";
                 if (relationship === "cranial") {
-                    relnDescription = relnTissue + " is cranial to ROI";
+                    relnDescription = "ROI is not cranial to the " + relnTissue ;
                 } else if (relationship === "caudal") {
-                    relnDescription = relnTissue + " is caudal to ROI";
+                    relnDescription = "ROI is not caudal to the " + relnTissue;
                 } else if (relationship === "dorsal") {
-                    relnDescription = relnTissue + " is dorsal to ROI";
+                    relnDescription = "ROI is not dorsal to the " + relnTissue;
                 } else if (relationship === "ventral") {
-                    relnDescription = relnTissue + " is ventral to ROI";
+                    relnDescription = "ROI is not ventral to the " + relnTissue;
                 } else if (relationship === "left") {
-                    relnDescription = relnTissue + " is left of ROI";
+                    relnDescription = "ROI is not left of the " + relnTissue;
                 } else if (relationship === "right") {
-                    relnDescription = relnTissue + " is right of ROI";
+                    relnDescription = "ROI is not right of the " + relnTissue;
                 }
                 var relnObject = {id: counter++, description: relnDescription, tissue: relnTissue, reln: relationship};
                 relnArray.push(relnObject);
