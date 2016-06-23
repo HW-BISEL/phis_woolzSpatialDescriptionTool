@@ -273,7 +273,8 @@
         <div class="row">                
             <div class="col-md-6">
                 <span><b><em>Debug info to be later hidden!</em></b></span>
-                <span><b>Image being displayed:</b> </span><span id="url">http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png</span>
+                <span><b>Image being displayed:</b></span><br />                
+                </span><span id="url">http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png</span>
             </div>      
         </div>      
        
