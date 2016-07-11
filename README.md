@@ -3,6 +3,7 @@
 Spatial tools based on the woolz library and tools provided by the eMouseAtlas.
 
 Currently only one tool exists:
+
 1. wlzDemoTool - allows the user to describe a spatial region using a controlled language and visualises the result in the mouse embryo (TS17).
 
 
