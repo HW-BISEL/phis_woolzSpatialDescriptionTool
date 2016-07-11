@@ -9,7 +9,7 @@ Currently only one tool exists:
 
 ### How do I get set up? ###
 
-####wlzDemoTool ### 
+####wlzDemoTool #### 
 
 1. From the [eMouseAtlas GitHub page](https://github.com/ma-tech/) install:
      * External (jpeg, tiff, nifti, fcgi & log4cpp)
