@@ -9,6 +9,8 @@ Currently only one tool exists:
 
 ### How do I get set up? ###
 
+####wlzDemoTool ### 
+
 1. From the [eMouseAtlas GitHub page](https://github.com/ma-tech/) install:
      * External (jpeg, tiff, nifti, fcgi & log4cpp)
      * Woolz
@@ -20,6 +22,8 @@ Currently only one tool exists:
 ### Available endpoints ###
 
 Assuming the server has the IRI http://lxbisel.macs.hw.ac.uk:8080/ the following endpoints are available:
+
+#### wlzDemoTool ####
 
 1. Server to process spatial description and convert it to WlzIIPServer query:
 http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=cranial:liver*
