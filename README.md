@@ -9,9 +9,9 @@ Currently only one tool exists:
 ### How do I get set up? ###
 
 1. From [https://github.com/ma-tech/](MA-Tech) install:
-    a. External (jpeg, tiff, nifti, fcgi & log4cpp)
-    b. Woolz
-    c. WlzIIPServer
+     a. External (jpeg, tiff, nifti, fcgi & log4cpp)
+     b. Woolz
+     c. WlzIIPServer
 2. Run mvn package
 3. Copy the war file to your server
 
