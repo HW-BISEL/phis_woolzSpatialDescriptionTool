@@ -8,7 +8,7 @@ Currently only one tool exists:
 
 ### How do I get set up? ###
 
-1. From [https://github.com/ma-tech/](MA-Tech) install:
+1. From the [eMouseAtlas GitHub page](https://github.com/ma-tech/) install:
      * External (jpeg, tiff, nifti, fcgi & log4cpp)
      * Woolz
      * WlzIIPServer
