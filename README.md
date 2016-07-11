@@ -3,25 +3,28 @@
 Spatial tools based on the woolz library and tools provided by the eMouseAtlas.
 
 Currently only one tool exists:
-1. XXX - allows the user to describe a spatial region using a controlled language and visualises the result in the mouse embryo (TS17).
+1. wlzDemoTool - allows the user to describe a spatial region using a controlled language and visualises the result in the mouse embryo (TS17).
 
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+1. From [https://github.com/ma-tech/](MA-Tech) install:
+    a. External (jpeg, tiff, nifti, fcgi & log4cpp)
+    b. Woolz
+    c. WlzIIPServer
+2. Run mvn package
+3. Copy the war file to your server
 
-### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
+### Available endpoints ###
+
+Assuming the server has the IRI http://lxbisel.macs.hw.ac.uk:8080/ the following endpoints are available:
+
+1. Server to process spatial description and convert it to WlzIIPServer query:
+http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=cranial:liver*
+2. V1 http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/
+3. V2 http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/v2.jsp
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+kcm1@hw.ac.uk
