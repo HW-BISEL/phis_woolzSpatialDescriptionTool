@@ -331,6 +331,10 @@
                 newPIT = 90;
                 newYAW = 70;
 
+                document.getElementById("dstValue").innerHTML = "200";
+                document.getElementById("dstSlider").value = 200;
+
+
                 updateImage();
             }
 
@@ -339,6 +343,9 @@
                 newDST = 30;
                 newPIT = 90;
                 newYAW = 140;
+                
+                document.getElementById("dstValue").innerHTML = "30";
+                document.getElementById("dstSlider").value = 30;                
 
                 updateImage();
             }
