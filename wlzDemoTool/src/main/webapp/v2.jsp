@@ -257,29 +257,33 @@
             <div class="row">
                 <div class="col-md-10">
                     <span><b>The tissues in your ROI</b></span>
-                    <p>List of tissues NOT in the red area</p>
+                    <p>List of tissues NOT in the red area:</p>
                     <div id="tOut">
                         <p>No tissues yet!</p>
                     </div>
                 </div>
             </div>
+            <hr />
             <div class="row">                
-                <div class="col-md-8">
-                    &nbsp;
-                </div>                
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <span><b>Search PhenoImageShare</b></span>
+                    <p>Using the tissues listed above search phenoimageshare</p>
+                </div>
+                <div class="col-md-6">
+                    <br />
                     <div id="phisSearch">
                         <input type="button" class="btn btn-default" id="phisButton" value="PhIS it" onclick="window.open('http://beta.phenoimageshare.org/search/?q=')">                                         
                     </div>
                 </div>
-            </div>            
+            </div>     
+            <br />
             <div class="row">                
-                <div class="col-md-8">
-                    &nbsp;
-                </div>                
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <span><b>Search EMAGE</b></span>
+                    <p>Using the tissues listed above search EMAGE</p>
+                </div>
+                <div class="col-md-6">
+                    <br />
                     <div id="emageSearch">
                         <input type="button" class="btn btn-default" id="emageButton" value="EMAGE it" onclick="window.open('http://www.emouseatlas.org/emagewebapp/pages/emage_general_query_result.jsf?stages=17&includestructuresynonyms=true&structures=')"> 
                     </div>
@@ -292,12 +296,12 @@
         <br />
 
         <div class="container">
-            <div class="row">                
-                <div class="col-md-8">
-                    &nbsp;
-                </div>                
-                <div class="col-md-2">
+            <div class="row">                               
+                <div class="col-md-4">
                     <span><b>To reset everything</b></span>   
+                </div>
+                <div class="col-md-6">
+                    <br />
                     <input type="button" class="btn btn-default" id="resetButton" value="reset" onclick="resetAll()">                                         
                 </div>
             </div>
