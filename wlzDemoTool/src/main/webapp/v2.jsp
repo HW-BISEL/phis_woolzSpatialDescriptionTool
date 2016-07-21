@@ -248,22 +248,43 @@
                 </div>
             </div>
         </div>
-        
+
         <br />
         <hr />
         <br />
-        
+
         <div class="container">
             <div class="row">
                 <div class="col-md-10">
-                    <span><b>List of tissues NOT in the red area</b></span>
-                    <p>The tissues in your ROI:</p>
+                    <span><b>The tissues in your ROI</b></span>
+                    <p>List of tissues NOT in the red area</p>
                     <div id="tOut">
                         <p>No tissues yet!</p>
                     </div>
-                    
                 </div>
             </div>
+            <div class="row">                
+                <div class="col-md-8">
+                    &nbsp;
+                </div>                
+                <div class="col-md-2">
+                    <span><b>Search PhenoImageShare</b></span>
+                    <div id="phisSearch">
+                        <input type="button" class="btn btn-default" id="phisButton" value="PhIS it" onclick="window.open('http://beta.phenoimageshare.org/search/?q=')">                                         
+                    </div>
+                </div>
+            </div>            
+            <div class="row">                
+                <div class="col-md-8">
+                    &nbsp;
+                </div>                
+                <div class="col-md-2">
+                    <span><b>Search EMAGE</b></span>
+                    <div id="emageSearch">
+                        <input type="button" class="btn btn-default" id="emageButton" value="EMAGE it" onclick="window.open('http://www.emouseatlas.org/emagewebapp/pages/emage_general_query_result.jsf?stages=17&includestructuresynonyms=true&structures=')"> 
+                    </div>
+                </div>
+            </div>            
         </div>
 
         <br />
@@ -287,195 +308,203 @@
         <hr />
         <br />
 
+        <!--
         <div class="row">                
             <div class="col-md-6">
                 <span><b><em>Debug info to be later hidden!</em></b></span>
                 <span><b>Image being displayed:</b></span><br />                
             </span><span id="url">http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png</span>
-    </div>      
-</div>      
-
-</div>
-<script>
-    var newDST = 200;
-    var newPIT = 90;
-    var newYAW = 70;
-    var newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
-    var counter = 0;
-    var relnArray = [];
-        
-    function leftPosition() {
-        newDST = 200;
-        newPIT = 90;
-        newYAW = 70;
-
-        updateImage();
-    }
+         </div>   
+        -->
 
 
-    function rearPosition() {
-        newDST = 30;
-        newPIT = 90;
-        newYAW = 140;
+        <script>
+            var newDST = 200;
+            var newPIT = 90;
+            var newYAW = 70;
+            var newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
+            var counter = 0;
+            var relnArray = [];
 
-        updateImage();
-    }
+            function leftPosition() {
+                newDST = 200;
+                newPIT = 90;
+                newYAW = 70;
 
-    function updateDST() {
-        newDST = document.getElementById("dstSlider").value;
-        document.getElementById("dstValue").innerHTML = newDST;
-        updateImage();
-    }
-
-
-    function updateImage() {
-        var description = "";
-        var url = "";
-        var url2 = "";
-
-        if (relnArray.length > 0) {
-            for (var index = 0; index < relnArray.length; index++) {
-                description += relnArray[index].reln + ":" + relnArray[index].tissue + "*";
+                updateImage();
             }
-            
-            url = "http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=" + description;
-            url2 = "http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ListTissues?description=" + description;
-            
-            var getURL = $.ajax({method: "GET", url: url});
-            getURL.done(function (response) {
-                newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz" + response + "&CVT=png";                
-                document.getElementById("url").innerHTML = newURL;
-                document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
-            });
-
-            getURL.fail(function (jqXHR, textStatus) {
-                console.log(textStatus);
-            });
-
-            //
-            //
-            //
-
-            var getURL2 = $.ajax({method: "GET", url: url2});
-            getURL2.done(function (response) {
-                document.getElementById("tOut").innerHTML = "<p>" + response + "</p>";
-            });
-
-            getURL2.fail(function (jqXHR, textStatus) {
-                console.log(textStatus);
-            });
-
-        } else {
-            newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
-            document.getElementById("url").innerHTML = newURL;
-            document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
-            document.getElementById("tOut").innerHTML = "<p>no relationships have been specified!</p>";
-        }
-
-    }
 
 
-    function resetAll() {
-        newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
-        counter = 0;
-        relnArray = [];
+            function rearPosition() {
+                newDST = 30;
+                newPIT = 90;
+                newYAW = 140;
 
-        document.getElementById("relnSelect").value = "0";
-        document.getElementById("relnTissueSelect").value = "0";
-        document.getElementById("relnSelect2").value = "0";
-        document.getElementById("relnTissueSelect2").value = "0";
-        document.getElementById("scratch").innerHTML = "No description yet!";
-
-        document.getElementById("dstValue").innerHTML = "200";
-        document.getElementById("dstSlider").value = 200;
-
-        document.getElementById("tOut").innerHTML = "<p>No tissues yet!</p>";
-
-        leftPosition();
-    }
-
-
-    function addReln() {
-        var relationship = document.getElementById("relnSelect").value;
-        var relnTissue = document.getElementById("relnTissueSelect").value;
-        if (relationship === "0") {
-            alert("Please enter a relationship");
-        } else if (relnTissue === "0") {
-            alert("Please enter a tissue");
-        } else {
-            var relnDescription = "";
-            if (relationship === "partial") {
-                relnDescription = "ROI partially overlaps " + relnTissue;
-            } else if (relationship === "encloses") {
-                relnDescription = "ROI encloses " + relnTissue;
-            } else if (relationship === "disjoint") {
-                relnDescription = "ROI is disjoint from " + relnTissue;
-            } else if (relationship === "tangential") {
-                relnDescription = "ROI is a tangential part of " + relnTissue;
-            } else if (relationship === "non-tangential") {
-                relnDescription = "ROI is a non-tangential part of " + relnTissue;
+                updateImage();
             }
-            var relnObject = {id: counter++, description: relnDescription, tissue: relnTissue, reln: relationship};
-            relnArray.push(relnObject);
-            document.getElementById("relnSelect").value = "0";
-            document.getElementById("relnTissueSelect").value = "0";
-            createTable();
-        }
-    }
 
-    function addReln2() {
-        var relationship = document.getElementById("relnSelect2").value;
-        var relnTissue = document.getElementById("relnTissueSelect2").value;
-        if (relationship === "0") {
-            alert("Please enter a relationship");
-        } else if (relnTissue === "0") {
-            alert("Please enter a tissue");
-        } else {
-            var relnDescription = "";
-            if (relationship === "cranial") {
-                relnDescription = "ROI is not cranial to the " + relnTissue;
-            } else if (relationship === "caudal") {
-                relnDescription = "ROI is not caudal to the " + relnTissue;
-            } else if (relationship === "dorsal") {
-                relnDescription = "ROI is not dorsal to the " + relnTissue;
-            } else if (relationship === "ventral") {
-                relnDescription = "ROI is not ventral to the " + relnTissue;
-            } else if (relationship === "left") {
-                relnDescription = "ROI is not left of the " + relnTissue;
-            } else if (relationship === "right") {
-                relnDescription = "ROI is not right of the " + relnTissue;
+            function updateDST() {
+                newDST = document.getElementById("dstSlider").value;
+                document.getElementById("dstValue").innerHTML = newDST;
+                updateImage();
             }
-            var relnObject = {id: counter++, description: relnDescription, tissue: relnTissue, reln: relationship};
-            relnArray.push(relnObject);
-            document.getElementById("relnSelect").value = "0";
-            document.getElementById("relnTissueSelect").value = "0";
-            createTable();
-        }
-    }
 
-    function deleteReln(id) {
-        for (var index3 = 0; index3 < relnArray.length; index3++) {
-            if (relnArray[index3].id === id) {
-                relnArray.splice(index3, 1);
+
+            function updateImage() {
+                var description = "";
+                var url = "";
+                var url2 = "";
+
+                if (relnArray.length > 0) {
+                    for (var index = 0; index < relnArray.length; index++) {
+                        description += relnArray[index].reln + ":" + relnArray[index].tissue + "*";
+                    }
+
+                    url = "http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=" + description;
+                    url2 = "http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ListTissues?description=" + description;
+
+                    var getURL = $.ajax({method: "GET", url: url});
+                    getURL.done(function (response) {
+                        newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz" + response + "&CVT=png";
+                        //document.getElementById("url").innerHTML = newURL;
+                        document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
+                    });
+
+                    getURL.fail(function (jqXHR, textStatus) {
+                        console.log(textStatus);
+                    });
+
+                    //
+                    //
+                    //
+
+                    var getURL2 = $.ajax({method: "GET", url: url2});
+                    getURL2.done(function (response) {
+                        document.getElementById("tOut").innerHTML = "<p>" + response + "</p>";
+                        var str = response.toString().replace(/,/g, " ");
+                        document.getElementById("phisSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"phisButton\" value=\"PhIS it\" onclick=\"window.open('http://beta.phenoimageshare.org/search/?q="+str+"')\">";
+                        document.getElementById("emageSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"emageButton\" value=\"EMAGE it\" onclick=\"window.open('http://www.emouseatlas.org/emagewebapp/pages/emage_general_query_result.jsf?stages=17&includestructuresynonyms=true&structures="+response.toString()+"')\">";
+                    });
+
+                    getURL2.fail(function (jqXHR, textStatus) {
+                        console.log(textStatus);
+                    });
+
+                } else {
+                    newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
+                    //document.getElementById("url").innerHTML = newURL;
+                    document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
+                    document.getElementById("tOut").innerHTML = "<p>no relationships have been specified!</p>";
+                    document.getElementById("phisSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"phisButton\" value=\"PhIS it\" onclick=\"window.open('http://beta.phenoimageshare.org/search/?q=')\">";
+                    document.getElementById("emageSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"emageButton\" value=\"EMAGE it\" onclick=\"window.open('http://www.emouseatlas.org/emagewebapp/pages/emage_general_query_result.jsf?stages=17&includestructuresynonyms=true&structures=')\">";
+                }
+
             }
-        }
-        createTable();
-    }
 
-    function createTable() {
-        var tableCode = "<table class=\"table table-striped\"><thead><tr><td>Description</td><td>Delete?</td></tr></thead>";
 
-        for (var index4 = 0; index4 < relnArray.length; index4++) {
-            tableCode += "<tr><td>" + relnArray[index4].description + "</td><td><input type=\"button\" class=\"btn btn-default\" value=\"delete\" onclick=\"deleteReln(" + relnArray[index4].id + ")\"></td></tr>";
-        }
+            function resetAll() {
+                newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
+                counter = 0;
+                relnArray = [];
 
-        tableCode += "</table>"
+                document.getElementById("relnSelect").value = "0";
+                document.getElementById("relnTissueSelect").value = "0";
+                document.getElementById("relnSelect2").value = "0";
+                document.getElementById("relnTissueSelect2").value = "0";
+                document.getElementById("scratch").innerHTML = "No description yet!";
 
-        document.getElementById("scratch").innerHTML = tableCode;
+                document.getElementById("dstValue").innerHTML = "200";
+                document.getElementById("dstSlider").value = 200;
 
-        updateImage();
-    }
+                document.getElementById("tOut").innerHTML = "<p>No tissues yet!</p>";
+                document.getElementById("phisSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"phisButton\" value=\"PhIS it\" onclick=\"window.open('http://beta.phenoimageshare.org/search/?q=')\">";
+                document.getElementById("emageSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"emageButton\" value=\"EMAGE it\" onclick=\"window.open('http://www.emouseatlas.org/emagewebapp/pages/emage_general_query_result.jsf?stages=17&includestructuresynonyms=true&structures=')\">";
+                
+                leftPosition();
+            }
 
-</script>         
-</body>
+
+            function addReln() {
+                var relationship = document.getElementById("relnSelect").value;
+                var relnTissue = document.getElementById("relnTissueSelect").value;
+                if (relationship === "0") {
+                    alert("Please enter a relationship");
+                } else if (relnTissue === "0") {
+                    alert("Please enter a tissue");
+                } else {
+                    var relnDescription = "";
+                    if (relationship === "partial") {
+                        relnDescription = "ROI partially overlaps " + relnTissue;
+                    } else if (relationship === "encloses") {
+                        relnDescription = "ROI encloses " + relnTissue;
+                    } else if (relationship === "disjoint") {
+                        relnDescription = "ROI is disjoint from " + relnTissue;
+                    } else if (relationship === "tangential") {
+                        relnDescription = "ROI is a tangential part of " + relnTissue;
+                    } else if (relationship === "non-tangential") {
+                        relnDescription = "ROI is a non-tangential part of " + relnTissue;
+                    }
+                    var relnObject = {id: counter++, description: relnDescription, tissue: relnTissue, reln: relationship};
+                    relnArray.push(relnObject);
+                    document.getElementById("relnSelect").value = "0";
+                    document.getElementById("relnTissueSelect").value = "0";
+                    createTable();
+                }
+            }
+
+            function addReln2() {
+                var relationship = document.getElementById("relnSelect2").value;
+                var relnTissue = document.getElementById("relnTissueSelect2").value;
+                if (relationship === "0") {
+                    alert("Please enter a relationship");
+                } else if (relnTissue === "0") {
+                    alert("Please enter a tissue");
+                } else {
+                    var relnDescription = "";
+                    if (relationship === "cranial") {
+                        relnDescription = "ROI is not cranial to the " + relnTissue;
+                    } else if (relationship === "caudal") {
+                        relnDescription = "ROI is not caudal to the " + relnTissue;
+                    } else if (relationship === "dorsal") {
+                        relnDescription = "ROI is not dorsal to the " + relnTissue;
+                    } else if (relationship === "ventral") {
+                        relnDescription = "ROI is not ventral to the " + relnTissue;
+                    } else if (relationship === "left") {
+                        relnDescription = "ROI is not left of the " + relnTissue;
+                    } else if (relationship === "right") {
+                        relnDescription = "ROI is not right of the " + relnTissue;
+                    }
+                    var relnObject = {id: counter++, description: relnDescription, tissue: relnTissue, reln: relationship};
+                    relnArray.push(relnObject);
+                    document.getElementById("relnSelect").value = "0";
+                    document.getElementById("relnTissueSelect").value = "0";
+                    createTable();
+                }
+            }
+
+            function deleteReln(id) {
+                for (var index3 = 0; index3 < relnArray.length; index3++) {
+                    if (relnArray[index3].id === id) {
+                        relnArray.splice(index3, 1);
+                    }
+                }
+                createTable();
+            }
+
+            function createTable() {
+                var tableCode = "<table class=\"table table-striped\"><thead><tr><td>Description</td><td>Delete?</td></tr></thead>";
+
+                for (var index4 = 0; index4 < relnArray.length; index4++) {
+                    tableCode += "<tr><td>" + relnArray[index4].description + "</td><td><input type=\"button\" class=\"btn btn-default\" value=\"delete\" onclick=\"deleteReln(" + relnArray[index4].id + ")\"></td></tr>";
+                }
+
+                tableCode += "</table>"
+
+                document.getElementById("scratch").innerHTML = tableCode;
+
+                updateImage();
+            }
+
+        </script>         
+    </body>
 </html>
