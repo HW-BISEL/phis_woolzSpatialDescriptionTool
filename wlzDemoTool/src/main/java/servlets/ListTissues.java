@@ -68,7 +68,7 @@ public class ListTissues extends HttpServlet {
             // example &sel=0&sel=domain(threshold(45,69,ge)),255,0,0,128            
             description = description.replace("&sel=0", "");
             description = description.replace("&sel=", "");
-            description = description.replace(",255,0,0,128", "");
+            description = description.replace(",128,128,128", "");
             description = description.replace(",255,0,0", "");
             description = description.trim();
 

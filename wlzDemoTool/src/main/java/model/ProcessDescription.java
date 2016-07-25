@@ -116,7 +116,7 @@ public class ProcessDescription {
             }
          */
         if (disconnectedList.size() == 1) {
-            outputText += "&sel=" + convertTissueToNumber(disconnectedList.get(0)) + ",255,0,0";
+            outputText += "&sel=" + convertTissueToNumber(disconnectedList.get(0)) + ",128,128,128";
         } else if (disconnectedList.size() > 0) {
             outputText += "&sel=union(";
             for (String temp : disconnectedList) {
@@ -162,7 +162,7 @@ public class ProcessDescription {
                     dorsal = temp;
                 }
                 // only need min for dorsal
-                outputText += "&sel=domain(threshold(45," + dorsal + ",ge)),255,0,0,128";
+                outputText += "&sel=domain(threshold(45," + dorsal + ",ge)),128,128,128";
             }
         }
         if (ventralList.size() > 0) {
@@ -177,7 +177,7 @@ public class ProcessDescription {
                     ventral = temp;
                 }
                 // only need max for ventral
-                outputText += "&sel=domain(threshold(45," + ventral + ",le)),255,0,0,128";
+                outputText += "&sel=domain(threshold(45," + ventral + ",le)),128,128,128";
             }
         }
 
@@ -194,7 +194,7 @@ public class ProcessDescription {
                 }
                 // only need max for ventral
             }
-            outputText += "&sel=domain(threshold(46," + cranial + ",le)),255,0,0,128";
+            outputText += "&sel=domain(threshold(46," + cranial + ",le)),128,128,128";
         }
 
         if (caudalList.size() > 0) {
@@ -209,7 +209,7 @@ public class ProcessDescription {
                     caudal = temp;
                 }
             }
-            outputText += "&sel=domain(threshold(46," + caudal + ",ge)),255,0,0,128";
+            outputText += "&sel=domain(threshold(46," + caudal + ",ge)),128,128,128";
         }
 
         if (leftList.size() > 0) {
@@ -224,7 +224,7 @@ public class ProcessDescription {
                     left = temp;
                 }
             }
-            outputText += "&sel=domain(threshold(47," + left + ",ge)),255,0,0,128";
+            outputText += "&sel=domain(threshold(47," + left + ",ge)),128,128,128";
         }
         if (rightList.size() > 0) {
             for (String name : rightList) {
@@ -238,7 +238,7 @@ public class ProcessDescription {
                     right = temp;
                 }
             }
-            outputText += "&sel=domain(threshold(47," + right + ",le)),255,0,0,128";
+            outputText += "&sel=domain(threshold(47," + right + ",le)),128,128,128";
         }
         return outputText;
     }

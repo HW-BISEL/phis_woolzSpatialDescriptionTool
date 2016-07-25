@@ -95,7 +95,7 @@
                 <div class="col-md-4">
                     <h2>Instructions</h2>
                     <p>This tool allows you to define a ROI by describing the space <strong>NOT</strong> in the ROI.</p>
-                    <p>Use the form below to remove (turn red) areas of the mouse that are not in your region of interest.</p>
+                    <p>Use the form below to remove (turn grey) areas of the mouse that are not in your region of interest.</p>
 
 
                     <hr />
@@ -127,7 +127,7 @@
                 <div class="col-md-10">
                     <span><b>Remove areas of space by saying the ROI is not there</b></span>
                     <p>Create statements of the form: <strong>ROI is <i>disconnected with</i> the <i>tissue</i></strong>.
-                        For example, the ROI is disconnected with the heart; the heart will be turned red.</p>
+                        For example, the ROI is disconnected with the heart; the heart will be turned grey.</p>
                 </div>            
             </div>
             <div class="row">
@@ -182,7 +182,7 @@
             <div class="row">
                 <div class="col-md-10">
                     <p>Create statements of the form: <strong>ROI is not <i>relationship</i> to the <i>tissue</i></strong>.
-                        For example, the ROI is not cranial to the heart; everything cranial to the heart will be turned red.</p>                
+                        For example, the ROI is not cranial to the heart; everything cranial to the heart will be turned grey.</p>                
                 </div>
             </div>
             <div class="row">
@@ -257,7 +257,7 @@
             <div class="row">
                 <div class="col-md-10">
                     <span><b>The tissues in your ROI</b></span>
-                    <p>List of tissues NOT in the red area:</p>
+                    <p>List of tissues NOT in the grey area:</p>
                     <div id="tOut">
                         <p>No tissues yet!</p>
                     </div>
@@ -426,6 +426,8 @@
 
                 document.getElementById("dstValue").innerHTML = "200";
                 document.getElementById("dstSlider").value = 200;
+                
+                //document.getElementById("url").innerHTML = newURL;
 
                 document.getElementById("tOut").innerHTML = "<p>No tissues yet!</p>";
                 document.getElementById("phisSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"phisButton\" value=\"PhIS it\" onclick=\"window.open('http://beta.phenoimageshare.org/search/?q=')\">";
