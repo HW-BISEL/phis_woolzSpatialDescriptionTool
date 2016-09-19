@@ -123,7 +123,7 @@ public class ProcessDescription {
                 outputText += convertTissueToNumber(temp) + ",";
             }
             outputText = outputText.substring(0, outputText.length() - 1);
-            outputText += "),255,0,0";
+            outputText += "),128,128,128";
         }
 
         // process encloses list
@@ -152,7 +152,7 @@ public class ProcessDescription {
 
         if (dorsalList.size() > 0) {
             for (String name : dorsalList) {
-                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(intersect(45," + convertTissueToNumber(name) + "),45)&OBJ=Wlz-Grey-Stats";
+                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(46," + convertTissueToNumber(name) + "),46)&OBJ=Wlz-Grey-Stats";
                 boolean result = talk(url);
                 if (!result) {
                     break;
@@ -162,12 +162,13 @@ public class ProcessDescription {
                     dorsal = temp;
                 }
                 // only need min for dorsal
-                outputText += "&sel=domain(threshold(45," + dorsal + ",ge)),128,128,128";
+                //outputText += "&sel=domain(threshold(45," + dorsal + ",ge)),128,128,128";
+                outputText += "&sel=domain(threshold(46," + dorsal + ",ge)),128,128,128";
             }
         }
         if (ventralList.size() > 0) {
             for (String name : ventralList) {
-                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(intersect(45," + convertTissueToNumber(name) + "),45)&OBJ=Wlz-Grey-Stats";
+                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(46," + convertTissueToNumber(name) + "),46)&OBJ=Wlz-Grey-Stats";
                 boolean result = talk(url);
                 if (!result) {
                     break;
@@ -177,13 +178,14 @@ public class ProcessDescription {
                     ventral = temp;
                 }
                 // only need max for ventral
-                outputText += "&sel=domain(threshold(45," + ventral + ",le)),128,128,128";
+                //outputText += "&sel=domain(threshold(45," + ventral + ",le)),128,128,128";
+                outputText += "&sel=domain(threshold(46," + ventral + ",le)),128,128,128";
             }
         }
 
         if (cranialList.size() > 0) {
             for (String name : cranialList) {
-                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(intersect(46," + convertTissueToNumber(name) + "),46)&OBJ=Wlz-Grey-Stats";
+                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(47," + convertTissueToNumber(name) + "),47)&OBJ=Wlz-Grey-Stats";
                 boolean result = talk(url);
                 if (!result) {
                     break;
@@ -194,12 +196,13 @@ public class ProcessDescription {
                 }
                 // only need max for ventral
             }
-            outputText += "&sel=domain(threshold(46," + cranial + ",le)),128,128,128";
+            //outputText += "&sel=domain(threshold(46," + cranial + ",le)),128,128,128";
+            outputText += "&sel=domain(threshold(47," + cranial + ",le)),128,128,128";
         }
 
         if (caudalList.size() > 0) {
             for (String name : caudalList) {
-                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(intersect(46," + convertTissueToNumber(name) + "),46)&OBJ=Wlz-Grey-Stats";
+                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(47," + convertTissueToNumber(name) + "),47)&OBJ=Wlz-Grey-Stats";
                 boolean result = talk(url);
                 if (!result) {
                     break;
@@ -209,12 +212,13 @@ public class ProcessDescription {
                     caudal = temp;
                 }
             }
-            outputText += "&sel=domain(threshold(46," + caudal + ",ge)),128,128,128";
+            //outputText += "&sel=domain(threshold(46," + caudal + ",ge)),128,128,128";
+            outputText += "&sel=domain(threshold(47," + caudal + ",ge)),128,128,128";
         }
 
         if (leftList.size() > 0) {
             for (String name : leftList) {
-                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(intersect(47," + convertTissueToNumber(name) + "),47)&OBJ=Wlz-Grey-Stats";
+                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(45," + convertTissueToNumber(name) + "),45)&OBJ=Wlz-Grey-Stats";
                 boolean result = talk(url);
                 if (!result) {
                     break;
@@ -224,11 +228,12 @@ public class ProcessDescription {
                     left = temp;
                 }
             }
-            outputText += "&sel=domain(threshold(47," + left + ",ge)),128,128,128";
+            //outputText += "&sel=domain(threshold(47," + left + ",ge)),128,128,128";
+            outputText += "&sel=domain(threshold(45," + left + ",ge)),128,128,128";
         }
         if (rightList.size() > 0) {
             for (String name : rightList) {
-                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&SEL=transfer(intersect(47," + convertTissueToNumber(name) + "),47)&OBJ=Wlz-Grey-Stats";
+                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(45," + convertTissueToNumber(name) + "),45)&OBJ=Wlz-Grey-Stats";
                 boolean result = talk(url);
                 if (!result) {
                     break;
@@ -238,7 +243,8 @@ public class ProcessDescription {
                     right = temp;
                 }
             }
-            outputText += "&sel=domain(threshold(47," + right + ",le)),128,128,128";
+            //outputText += "&sel=domain(threshold(47," + right + ",le)),128,128,128";
+            outputText += "&sel=domain(threshold(45," + right + ",le)),128,128,128";
         }
         return outputText;
     }
@@ -282,91 +288,91 @@ public class ProcessDescription {
 
     public int convertTissueToNumber(String tissue) {
         if (tissue.equals("diencephalon")) {
-            return 15;
+            return 17;
         }
         if (tissue.equals("eye")) {
-            return 8;
+            return 28;
         }
         if (tissue.equals("heart")) {
-            return 19;
-        }
-        if (tissue.equals("hyoid arch")) {
-            return 5;
-        }
-        if (tissue.equals("liver")) {
-            return 23;
-        }
-        if (tissue.equals("mandibular arch")) {
             return 35;
         }
+        if (tissue.equals("hyoid arch")) {
+            return 12;
+        }
+        if (tissue.equals("liver")) {
+            return 16;
+        }
+        if (tissue.equals("mandibular arch")) {
+            return 14;
+        }
         if (tissue.equals("mesencephalon")) {
-            return 42;
+            return 10;
         }
         if (tissue.equals("metencephalon")) {
-            return 20;
+            return 21;
         }
         if (tissue.equals("neural tube")) {
-            return 39;
+            return 38;
         }
         if (tissue.equals("olfactory placode")) {
-            return 31;
+            return 42;
         }
         if (tissue.equals("otic pit")) {
-            return 2;
+            return 8;
         }
         if (tissue.equals("rathke pouch")) {
-            return 24;
+            return 34;
         }
         if (tissue.equals("tail bud")) {
-            return 32;
+            return 25;
         }
         if (tissue.equals("telencephalon")) {
-            return 11;
+            return 36;
         }
         return 0;
     }
 
     public String convertNumberToTissue(int num) {
-        if (num == 15) {
+        if (num == 17) {
             return "diencephalon";
         }
-        if (num == 8) {
+        if (num == 28) {
             return "eye";
         }
-        if (num == 19) {
+        if (num == 35) {
             return "heart";
         }
-        if (num == 5) {
+        if (num == 12) {
             return "hyoid arch";
         }
-        if (num == 23) {
+        if (num == 16) {
             return "liver";
         }
-        if (num == 35) {
+        if (num == 14) {
             return "mandibular arch";
         }
-        if (num == 42) {
+        if (num == 10) {
             return "mesencephalon";
         }
-        if (num == 20) {
+        if (num == 21) {
             return "metencephalon";
         }
-        if (num == 39) {
+        if (num == 38) {
             return "neural tube";
         }
-        if (num == 31) {
+        if (num == 42) {
             return "olfactory placode";
         }
-        if (num == 2) {
+        if (num == 8) {
             return "otic pit";
         }
-        if (num == 24) {
+        if (num == 34) {
             return "rathke pouch";
         }
-        if (num == 32) {
+        if (num == 25) {
             return "tail bud";
         }
-        if (num == 11) {
+        if (num == 36) {
             return "telencephalon";
         }
 

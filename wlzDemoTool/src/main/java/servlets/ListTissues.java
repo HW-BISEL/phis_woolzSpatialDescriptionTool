@@ -126,13 +126,27 @@ public class ListTissues extends HttpServlet {
                         return;
                 }
             }
+            
+            // finalDescription = description of area rejected.
+            
+            // actual ROI, not the area the user greyed out
+            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=diff(0,domain(threshold(46,590,le)))&obj=wlz-volume
+            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=intersect(2,domain(diff(22,domain(threshold(46,590,le)))))&obj=wlz-volume
+            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&sel=diff(22,domain(threshold(46,590,le))),128,128,128&CVT=png
+            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&sel=intersect(2,domain(diff(22,domain(threshold(46,590,le))))),128,128,128&CVT=png
+            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=intersect(2,domain(diff(22,domain(threshold(46,590,le)))))&obj=wlz-volume           
+            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=diff(22,domain(threshold(46,590,le)))&obj=wlz-volume
+            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=diff(22,domain(threshold(46,590,le))),128,128,128&CVT=png
+            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=domain(threshold(46,590,le)),128,128,128&CVT=png
+            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=22&obj=wlz-volume
+            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=intersect(2,domain(threshold(46,590,le)))&obj=wlz-volume
 
             // determine if each region in ROI
             if (!finalDescription.equalsIgnoreCase("")) {
                 for (int i = 1; i < 45; i++) {
                     String tissue = pd.convertNumberToTissue(i);
                     if (tissue != null) {
-                        String queryUrl = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=intersect(" + i + "," + finalDescription + ")&obj=wlz-volume";
+                        String queryUrl = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=intersect(" + i + "," + finalDescription + ")&obj=wlz-volume";
                         //out.println(queryUrl);
                         int volume = talk(queryUrl);
                         if (volume < 500) {

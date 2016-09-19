@@ -25,7 +25,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <div id="iip_image"><img src="http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png"/></div>
+                    <div id="iip_image"><img src="http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png"/></div>
                 </div>
                 <!--
                 <div class="col-md-2">
@@ -312,21 +312,21 @@
         <hr />
         <br />
 
-        <!--
+        
         <div class="row">                
             <div class="col-md-6">
                 <span><b><em>Debug info to be later hidden!</em></b></span>
                 <span><b>Image being displayed:</b></span><br />                
-            </span><span id="url">http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png</span>
+            </span><span id="url">http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png</span>
          </div>   
-        -->
+        
 
 
         <script>
             var newDST = 200;
             var newPIT = 90;
             var newYAW = 70;
-            var newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
+            var newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png";
             var counter = 0;
             var relnArray = [];
 
@@ -376,8 +376,8 @@
 
                     var getURL = $.ajax({method: "GET", url: url});
                     getURL.done(function (response) {
-                        newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz" + response + "&CVT=png";
-                        //document.getElementById("url").innerHTML = newURL;
+                        newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes2.wlz" + response + "&CVT=png";
+                        document.getElementById("url").innerHTML = newURL;
                         document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
                     });
 
@@ -402,8 +402,8 @@
                     });
 
                 } else {
-                    newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
-                    //document.getElementById("url").innerHTML = newURL;
+                    newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png";
+                    document.getElementById("url").innerHTML = newURL;
                     document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
                     document.getElementById("tOut").innerHTML = "<p>no relationships have been specified!</p>";
                     document.getElementById("phisSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"phisButton\" value=\"PhIS it\" onclick=\"window.open('http://beta.phenoimageshare.org/search/?q=')\">";
@@ -414,7 +414,7 @@
 
 
             function resetAll() {
-                newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
+                newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png";
                 counter = 0;
                 relnArray = [];
 
@@ -427,7 +427,7 @@
                 document.getElementById("dstValue").innerHTML = "200";
                 document.getElementById("dstSlider").value = 200;
                 
-                //document.getElementById("url").innerHTML = newURL;
+                document.getElementById("url").innerHTML = newURL;
 
                 document.getElementById("tOut").innerHTML = "<p>No tissues yet!</p>";
                 document.getElementById("phisSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"phisButton\" value=\"PhIS it\" onclick=\"window.open('http://beta.phenoimageshare.org/search/?q=')\">";
