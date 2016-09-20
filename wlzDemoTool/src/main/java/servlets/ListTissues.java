@@ -15,6 +15,9 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeSet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,8 +31,11 @@ import model.ProcessDescription;
  */
 @WebServlet(name = "ListTissues", urlPatterns = {"/ListTissues"})
 public class ListTissues extends HttpServlet {
-    
-    private ArrayList<String> tissuesOut = null;
+
+    private ArrayList<String> completelyUnCoveredTissues = new ArrayList<String>();
+    private ArrayList<String> completelyCoveredTissues = new ArrayList<String>();
+    private HashMap<Double, String> jaqResults = new HashMap<Double, String>();
+    private TreeSet<Double> sortJaqResults = new TreeSet<Double>();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,122 +51,86 @@ public class ListTissues extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
         ProcessDescription pd = new ProcessDescription();
-        
-        tissuesOut = new ArrayList<>();
-        tissuesOut.add("diencephalon");
-        tissuesOut.add("eye");
-        tissuesOut.add("heart");
-        tissuesOut.add("hyoid arch");
-        tissuesOut.add("liver");
-        tissuesOut.add("mandibular arch");
-        tissuesOut.add("mesencephalon");
-        tissuesOut.add("metencephalon");
-        tissuesOut.add("neural tube");
-        tissuesOut.add("olfactory placode");
-        tissuesOut.add("otic pit");
-        tissuesOut.add("rathke pouch");
-        tissuesOut.add("tail bud");
-        tissuesOut.add("telencephalon");
-                
-                
+        jaqResults.clear();
+        sortJaqResults.clear();
+        completelyCoveredTissues.clear();
+        completelyUnCoveredTissues.clear();
+        String finalDescription = "";
+
         try (PrintWriter out = response.getWriter()) {
-            String description = pd.process(request.getParameter("description")).trim();
             // example &sel=0&sel=domain(threshold(45,69,ge)),255,0,0,128            
-            description = description.replace("&sel=0", "");
-            description = description.replace("&sel=", "");
+            String description = pd.process(request.getParameter("description")).trim();                     
+            description = description.replace("&sel=0", "");            
             description = description.replace(",128,128,128", "");
             description = description.replace(",255,0,0", "");
-            description = description.trim();
+            description = description.trim();                        
 
-            //out.println(description);
-            String finalDescription = "";
-
-            if (description.startsWith("union")) {
-                String temp = description.substring(6, description.indexOf(")"));
-                description = description.substring(description.indexOf(")") + 1);
-
-                String[] tempA = temp.split(",");
-                for (String tiss : tempA) {
-                    tissuesOut.remove(pd.convertNumberToTissue(Integer.parseInt(tiss)));
-                }
-            } else if(description.startsWith("1") || description.startsWith("2") || description.startsWith("3") || description.startsWith("4") || description.startsWith("5") || description.startsWith("6") || description.startsWith("7") || description.startsWith("8") || description.startsWith("9")) {
-                int pos = description.indexOf("d");
-                if(pos > 1) {
-                    // do nothing as this is handled later!
-                    //tissuesIn.add(pd.convertNumberToTissue(Integer.parseInt(description.substring(0, pos))));
-                } else {
-                    
-                    tissuesOut.remove(pd.convertNumberToTissue(Integer.parseInt(description)));
-                }
+            String[] splitDescription = description.split("&sel=");     
+            switch (splitDescription.length) {
+                case 2:
+                    finalDescription = splitDescription[1];
+                    break;
+                case 3:
+                    finalDescription = "union("+splitDescription[1]+","+splitDescription[2]+")";
+                    break;
+                case 4:
+                    finalDescription = "union("+splitDescription[1]+",union("+splitDescription[2]+","+splitDescription[3]+"))";
+                    break;
+                case 5:
+                    finalDescription = "union("+splitDescription[1]+",union("+splitDescription[2]+",union("+splitDescription[3]+","+splitDescription[4]+")))";
+                    break;
+                default:
+                    out.println("too many parameters in description");
+                    break;
             }
+                                        
 
-            // count number of domains            
-            if (description.contains("domain")) {
-                String[] tempP = description.split("domain");
-                ArrayList<String> tempP2 = new ArrayList<>();
-                for (String temp : tempP) {
-                    if (temp.equalsIgnoreCase("")) {
-                        continue;  // happens if there is only 1 axis reln, weird side effect of split
-                    }
-                    if (!temp.startsWith("(")) {
-                        tissuesOut.remove(pd.convertNumberToTissue(Integer.parseInt(temp)));
-                    } else { // if disjoint
-                        tempP2.add(temp);
-                    }
-                }
-
-                switch (tempP2.size()) {
-                    case 1:
-                        finalDescription = "domain" + tempP2.get(0);
-                        break;
-                    case 2:
-                        finalDescription = "union(domain" + tempP2.get(0) + ",domain" + tempP2.get(1) + ")";
-                        break;
-                    case 3:
-                        finalDescription = "union(union(domain" + tempP2.get(0) + ",domain" + tempP2.get(1) + "),domain" + tempP2.get(2) + ")";
-                        break;
-                    case 4:
-                        finalDescription = "union(union(union(domain" + tempP2.get(0) + ",domain" + tempP2.get(1) + "),domain" + tempP2.get(2) + "),domain" + tempP2.get(3) + ")";
-                        break;
-                    default:
-                        return;
-                }
-            }
-            
-            // finalDescription = description of area rejected.
-            
-            // actual ROI, not the area the user greyed out
-            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=diff(0,domain(threshold(46,590,le)))&obj=wlz-volume
-            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=intersect(2,domain(diff(22,domain(threshold(46,590,le)))))&obj=wlz-volume
-            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&sel=diff(22,domain(threshold(46,590,le))),128,128,128&CVT=png
-            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&sel=intersect(2,domain(diff(22,domain(threshold(46,590,le))))),128,128,128&CVT=png
-            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=intersect(2,domain(diff(22,domain(threshold(46,590,le)))))&obj=wlz-volume           
-            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=diff(22,domain(threshold(46,590,le)))&obj=wlz-volume
-            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=diff(22,domain(threshold(46,590,le))),128,128,128&CVT=png
-            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=domain(threshold(46,590,le)),128,128,128&CVT=png
-            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=22&obj=wlz-volume
-            // http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=intersect(2,domain(threshold(46,590,le)))&obj=wlz-volume
-
-            // determine if each region in ROI
+            // for each domain
+            // get the size of the domain
+            // get the intersection of domain and ROI
             if (!finalDescription.equalsIgnoreCase("")) {
                 for (int i = 1; i < 45; i++) {
-                    String tissue = pd.convertNumberToTissue(i);
-                    if (tissue != null) {
-                        String queryUrl = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=intersect(" + i + "," + finalDescription + ")&obj=wlz-volume";
-                        //out.println(queryUrl);
-                        int volume = talk(queryUrl);
-                        if (volume < 500) {
-                            // tissuesOut.add(tissue);
-                        } else {
-                            tissuesOut.remove(tissue);
+                    Double domainVolume = new Double(getVolume(i));
+                    String tissName = pd.convertNumberToTissue(i);                    
+                    if (domainVolume != 0) {
+                        String queryUrl = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=intersect(" + i + "," + finalDescription + ")&obj=wlz-volume";                        
+                        Double intersection = new Double(talk(queryUrl));
+                        Double dividedBy = domainVolume - intersection;
+                        Double jaquardIndex = intersection / dividedBy;
+                        if (intersection.equals(0.0)) {
+                            // no overlap... so none of domain in ROI
+                            completelyUnCoveredTissues.add(tissName);
+                        } else if (jaquardIndex.isInfinite()) {
+                            // intersection is complete... so all of domain in ROI`
+                            completelyCoveredTissues.add(tissName);
+                        } else {                                                        
+                            jaqResults.put(jaquardIndex, tissName);
+                            sortJaqResults.add(jaquardIndex);
                         }
-                    }
+                    }                    
                 }
             }
-            String tempS = tissuesOut.toString();
-            tempS = tempS.substring(1, tempS.length()-1);
-            out.print(tempS);
-            
+
+            // sort output
+            String tempS = "";
+            Iterator<String> it1 = completelyUnCoveredTissues.iterator();
+            while (it1.hasNext()) {
+                tempS += it1.next() + ",";
+            }
+            tempS += "*";
+            Iterator<Double> it = sortJaqResults.iterator();
+            while (it.hasNext()) {
+                tempS += jaqResults.get(it.next()) + ",";
+            }
+            tempS += "*";
+            it1 = completelyCoveredTissues.iterator();
+            while (it1.hasNext()) {
+                tempS += it1.next() + ",";
+            }
+            if (tempS.length() != 0) {
+                tempS = tempS.substring(0, tempS.length() - 1);
+            }
+            out.println(tempS);
             out.flush();
         }
     }
@@ -192,11 +162,58 @@ public class ListTissues extends HttpServlet {
             input.close();
             temp.delete();
             return tiss;
-            
+
         } catch (IOException ioe) {
 
         }
         return -1;
+    }
+
+    public int getVolume(int num) {
+        if (num == 17) {
+            return 1219472;
+        }
+        if (num == 28) {
+            return 56729;
+        }
+        if (num == 35) {
+            return 840612;
+        }
+        if (num == 12) {
+            return 165060;
+        }
+        if (num == 16) {
+            return 88757;
+        }
+        if (num == 14) {
+            return 365770;
+        }
+        if (num == 10) {
+            return 745515;
+        }
+        if (num == 21) {
+            return 1768228;
+        }
+        if (num == 38) {
+            return 1377217;
+        }
+        if (num == 42) {
+            return 618910;
+        }
+        if (num == 8) {
+            return 101926;
+        }
+        if (num == 34) {
+            return 13624;
+        }
+        if (num == 25) {
+            return 119066;
+        }
+        if (num == 36) {
+            return 1002166;
+        }
+
+        return 0;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
