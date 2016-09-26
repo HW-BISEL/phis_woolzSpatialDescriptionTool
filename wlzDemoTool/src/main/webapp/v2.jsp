@@ -256,8 +256,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-10">
-                    <span><b>The tissues in your ROI</b></span>
-                    <p>List of tissues NOT in the grey area:</p>
+                    <span><b>The tissues in your ROI</b></span>                    
                     <div id="tOut">
                         <p>No tissues yet!</p>
                     </div>
@@ -390,11 +389,30 @@
                     //
 
                     var getURL2 = $.ajax({method: "GET", url: url2});
-                    getURL2.done(function (response) {
-                        document.getElementById("tOut").innerHTML = "<p>" + response + "</p>";
-                        var str = response.toString().replace(/,/g, " ");
-                        document.getElementById("phisSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"phisButton\" value=\"PhIS it\" onclick=\"window.open('http://beta.phenoimageshare.org/search/?q="+str+"')\">";
-                        document.getElementById("emageSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"emageButton\" value=\"EMAGE it\" onclick=\"window.open('http://www.emouseatlas.org/emagewebapp/pages/emage_general_query_result.jsf?stages=17&includestructuresynonyms=true&structures="+response.toString()+"')\">";
+                    getURL2.done(function (response) {                                                
+                        var emage = response.toString().replace(/\*/g, "").trim();                        
+                        var phis = emage.replace(/,/g, " ").trim();
+                        var split_str = response.split("*");
+                        
+                        var uncover = "";
+                        var cover = "";
+                        var partial = "";
+                        if(split_str[0].endsWith(",")) {
+                            uncover = split_str[0].substring(0, split_str[0].length -1);                        
+                        } else {
+                            uncover = split_str[0];                        
+                        }
+                        if(split_str[1].endsWith(",")) {
+                            partial = split_str[1].substring(0, split_str[1].length -1);                        
+                        } else {
+                            partial = split_str[1];
+                        }
+                        cover = split_str[2];
+                        document.getElementById("tOut").innerHTML = "<p>Completely out of the grey area: " + uncover + ".</p><p>Partial overlap with grey area: " +partial+".</p><p>Completely inside the grey area: " + cover +".</p>";
+                        document.getElementById("emageSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"emageButton\" value=\"EMAGE it\" onclick=\"window.open('http://www.emouseatlas.org/emagewebapp/pages/emage_general_query_result.jsf?stages=17&includestructuresynonyms=true&structures="+emage+"')\">";
+                        
+                        document.getElementById("phisSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"phisButton\" value=\"PhIS it\" onclick=\"window.open('http://beta.phenoimageshare.org/search/?q="+phis+"')\">";
+                        
                     });
 
                     getURL2.fail(function (jqXHR, textStatus) {

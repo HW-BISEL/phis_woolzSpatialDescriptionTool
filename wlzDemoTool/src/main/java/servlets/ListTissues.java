@@ -48,6 +48,7 @@ public class ListTissues extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //response.setContentType("application/json;charset=UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
         ProcessDescription pd = new ProcessDescription();
@@ -84,6 +85,8 @@ public class ListTissues extends HttpServlet {
                     break;
             }
                                         
+            
+            Double roiVolume = new Double (talk("http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel="+finalDescription + "&obj=wlz-volume"));
 
             // for each domain
             // get the size of the domain
@@ -97,21 +100,54 @@ public class ListTissues extends HttpServlet {
                         Double intersection = new Double(talk(queryUrl));
                         Double dividedBy = domainVolume - intersection;
                         Double jaquardIndex = intersection / dividedBy;
-                        if (intersection.equals(0.0)) {
+                        Double dividedBy2 = (domainVolume + roiVolume) - intersection;
+                        Double jaquardIndex2 = intersection / dividedBy2;
+                        Double percentage = (intersection / domainVolume) * 100;
+                        //out.println(tissName+" "+intersection+" "+percentage+"  "+jaquardIndex2+"      ");
+                        if (percentage < 10.0) {
                             // no overlap... so none of domain in ROI
                             completelyUnCoveredTissues.add(tissName);
-                        } else if (jaquardIndex.isInfinite()) {
+                        } else if (percentage > 90.0) {
                             // intersection is complete... so all of domain in ROI`
                             completelyCoveredTissues.add(tissName);
                         } else {                                                        
-                            jaqResults.put(jaquardIndex, tissName);
-                            sortJaqResults.add(jaquardIndex);
+                            jaqResults.put(percentage, tissName);
+                            sortJaqResults.add(percentage);
                         }
                     }                    
                 }
             }
 
-            // sort output
+            // sort output   
+            // BROWSER CANNOT PARSE THIS JSON
+            /*
+            JSONArray minus = new JSONArray();
+            Iterator<String> it1 = completelyCoveredTissues.iterator();
+            while (it1.hasNext()) {
+                minus.add(it1.next());
+            }
+            JSONArray p1 = new JSONArray();
+            it1 = completelyUnCoveredTissues.iterator();
+            while(it1.hasNext()) {
+                p1.add(it1.next());
+            }
+            JSONArray no_p = new JSONArray();
+            Iterator<Double> it = sortJaqResults.iterator();
+            while (it.hasNext()) {
+                //Double per = it.next();
+                //out.println(per+" "+jaqResults.get(per));
+                no_p.add(jaqResults.get(it.next()));
+            }            
+            
+            JSONObject json = new JSONObject();
+            json.put("p1", p1);
+            json.put("no_p", no_p);
+            json.put("minus", minus);
+            
+            out.println(json.toJSONString());
+            */
+            
+            
             String tempS = "";
             Iterator<String> it1 = completelyUnCoveredTissues.iterator();
             while (it1.hasNext()) {
@@ -126,11 +162,11 @@ public class ListTissues extends HttpServlet {
             it1 = completelyCoveredTissues.iterator();
             while (it1.hasNext()) {
                 tempS += it1.next() + ",";
-            }
-            if (tempS.length() != 0) {
+            }            
+            if (tempS.endsWith(",")) {
                 tempS = tempS.substring(0, tempS.length() - 1);
-            }
-            out.println(tempS);
+            }                       
+            out.println(tempS);            
             out.flush();
         }
     }
