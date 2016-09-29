@@ -392,8 +392,9 @@
                     getURL2.done(function (response) {                                                
                         var emage = response.toString().replace(/\*/g, "").trim();   
                         emage = emage.replace(/£/g,"");
-                        emage=emage.replace(/-/g,"").trim();
-                        var phis = emage.replace(/,/g, " ").trim();
+                        emage = emage.replace(/-/g,"").trim();
+                        var phis = response.replace(/,/g, " ");
+                        phis = phis.replace(/\*/g, "").trim();
                         var split_str = response.split("*");
                         
                         var uncover = "";
@@ -410,7 +411,7 @@
                             partial = split_str[1];
                         }
                         cover = split_str[2];
-                        document.getElementById("tOut").innerHTML = "<p>Completely out of the grey area: " + uncover.replace(/£/g, "") + ".</p><p>Partial overlap with grey area: " +partial+".</p><p>Completely inside the grey area: " + cover.replace(/-/g, "") +".</p>";
+                        document.getElementById("tOut").innerHTML = "<p>Completely out of the grey area: " + uncover.replace(/£/g, "").trim() + ".</p><p>Partial overlap with grey area: " +partial.trim()+".</p><p>Completely inside the grey area: " + cover.replace(/-/g, "").trim() +".</p>";
                         document.getElementById("emageSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"emageButton\" value=\"EMAGE it\" onclick=\"window.open('http://www.emouseatlas.org/emagewebapp/pages/emage_general_query_result.jsf?stages=17&includestructuresynonyms=true&structures="+emage+"')\">";
                         
                         document.getElementById("phisSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"phisButton\" value=\"PhIS it\" onclick=\"window.open('http://beta.phenoimageshare.org/search/?q="+phis+"')\">";
