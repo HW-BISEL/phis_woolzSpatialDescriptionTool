@@ -202,15 +202,19 @@ public class ProcessDescription {
 
         if (caudalList.size() > 0) {
             for (String name : caudalList) {
+                // heart and liver both look wrong
+                
                 String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(47," + convertTissueToNumber(name) + "),47)&OBJ=Wlz-Grey-Stats";
                 boolean result = talk(url);
                 if (!result) {
                     break;
                 }
+
                 Integer temp = new Integer(stop_pos);
                 if (temp < caudal) {
                     caudal = temp;
                 }
+
             }
             //outputText += "&sel=domain(threshold(46," + caudal + ",ge)),128,128,128";
             outputText += "&sel=domain(threshold(47," + caudal + ",ge)),128,128,128";
@@ -382,6 +386,6 @@ public class ProcessDescription {
     public String getRandomFileName() {
         long ct = System.currentTimeMillis();
         ct = ct - 1420070400; // Substract Jan 1st, 2015
-        return ct + "" + UUID.randomUUID().getMostSignificantBits() % 100+".txt";        
+        return ct + "" + UUID.randomUUID().getMostSignificantBits() % 100 + ".txt";
     }
 }

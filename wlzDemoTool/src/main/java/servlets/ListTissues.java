@@ -151,7 +151,7 @@ public class ListTissues extends HttpServlet {
             String tempS = "";
             Iterator<String> it1 = completelyUnCoveredTissues.iterator();
             while (it1.hasNext()) {
-                tempS += it1.next() + ",";
+                tempS += "£"+it1.next() + ",";
             }
             tempS += "*";
             Iterator<Double> it = sortJaqResults.iterator();
@@ -161,7 +161,7 @@ public class ListTissues extends HttpServlet {
             tempS += "*";
             it1 = completelyCoveredTissues.iterator();
             while (it1.hasNext()) {
-                tempS += it1.next() + ",";
+                tempS += "-"+it1.next() + ",";
             }            
             if (tempS.endsWith(",")) {
                 tempS = tempS.substring(0, tempS.length() - 1);
