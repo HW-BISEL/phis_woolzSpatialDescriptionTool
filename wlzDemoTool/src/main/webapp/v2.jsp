@@ -390,7 +390,9 @@
 
                     var getURL2 = $.ajax({method: "GET", url: url2});
                     getURL2.done(function (response) {                                                
-                        var emage = response.toString().replace(/\*/g, "").trim();                        
+                        var emage = response.toString().replace(/\*/g, "").trim();   
+                        emage = emage.replace(/£/g,"");
+                        emage=emage.replace(/-/g,"").trim();
                         var phis = emage.replace(/,/g, " ").trim();
                         var split_str = response.split("*");
                         
