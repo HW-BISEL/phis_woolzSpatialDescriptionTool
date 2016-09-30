@@ -390,8 +390,8 @@
 
                     var getURL2 = $.ajax({method: "GET", url: url2});
                     getURL2.done(function (response) {                                                
-                        var emage = response.toString().replace(/\*/g, "").trim();                        
-                        var phis = emage.replace(/,/g, " ").trim();
+                        //var emage = response.toString().replace(/\*/g, "").trim();                        
+                        //var phis = emage.replace(/,/g, " ").trim();
                         var split_str = response.split("*");
                         
                         var uncover = "";
@@ -406,9 +406,13 @@
                             partial = split_str[1].substring(0, split_str[1].length -1);                        
                         } else {
                             partial = split_str[1];
-                        }
+                        }                                                                        
                         cover = split_str[2];
-                        document.getElementById("tOut").innerHTML = "<p>Completely out of the grey area: " + uncover + ".</p><p>Partial overlap with grey area: " +partial+".</p><p>Completely inside the grey area: " + cover +".</p>";
+                        
+                        var emage = uncover + ","+partial;
+                        var phis = emage.replace(/,/g, " ");
+                        
+                        document.getElementById("tOut").innerHTML = "<p>Completely out of the grey area: " + uncover.trim() + ".</p><p>Partial overlap with grey area: " +partial.trim()+".</p><p>Completely inside the grey area: " + cover.trim() +".</p>";
                         document.getElementById("emageSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"emageButton\" value=\"EMAGE it\" onclick=\"window.open('http://www.emouseatlas.org/emagewebapp/pages/emage_general_query_result.jsf?stages=17&includestructuresynonyms=true&structures="+emage+"')\">";
                         
                         document.getElementById("phisSearch").innerHTML = "<input type=\"button\" class=\"btn btn-default\" id=\"phisButton\" value=\"PhIS it\" onclick=\"window.open('http://beta.phenoimageshare.org/search/?q="+phis+"')\">";
