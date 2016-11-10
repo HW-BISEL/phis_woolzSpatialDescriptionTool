@@ -11,17 +11,22 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author kcm
  */
 public class ProcessDescription {
+
+    private static final Logger LOG = Logger.getLogger(ProcessDescription.class.getName());
 
     private Integer ventral = 0;
     private Integer dorsal = 0;
@@ -250,42 +255,50 @@ public class ProcessDescription {
     }
 
     private boolean talk(String queryURL) {
-        BufferedReader in = null;
-        String fileName = getRandomFileName();
+        String line = "";
+
         try {
             // connect to SOLR and run query
             URL url = new URL(queryURL);
 
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-            FileOutputStream fos = new FileOutputStream(fileName);
-            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-            fos.flush();
-            fos.close();
-            rbc.close();
+            ByteBuffer buf = ByteBuffer.allocate(512);
 
+            while (rbc.read(buf) > 0) {
+
+                buf.flip();
+
+                while (buf.hasRemaining()) {
+                    char ch = (char) buf.get();
+                    line += ch;
+                }
+
+            }
+            line = line.trim();
         } catch (IOException e) {
             return false;
         }
 
         try {
-            File temp = new File(fileName);
-            BufferedReader input = new BufferedReader(new FileReader(temp));
-            input.readLine(); //blank
-            StringTokenizer st = new StringTokenizer(input.readLine());
+            LOG.log(Level.INFO, "line read: {0}", line);
+
+            StringTokenizer st = new StringTokenizer(line);
             st.nextToken();
             st.nextToken();
             start_pos = st.nextToken();
             stop_pos = st.nextToken();
-            input.close();
-            temp.delete();
-            return true;
-        } catch (IOException ioe) {
+            
 
+            LOG.log(Level.INFO, "start_pos is: {0}", start_pos);
+            LOG.log(Level.INFO, "stop_pos is: {0}", stop_pos);
+            
+        } catch (Exception e) {
+            return false;
         }
-
         return true;
     }
 
+    
     public int convertTissueToNumber(String tissue) {
         if (tissue.equals("diencephalon")) {
             return 17;

@@ -5,19 +5,18 @@
  */
 package servlets;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +30,8 @@ import model.ProcessDescription;
  */
 @WebServlet(name = "ListTissues", urlPatterns = {"/ListTissues"})
 public class ListTissues extends HttpServlet {
+
+    private static final Logger LOG = Logger.getLogger(ListTissues.class.getName());
 
     private ArrayList<String> completelyUnCoveredTissues = new ArrayList<String>();
     private ArrayList<String> completelyCoveredTissues = new ArrayList<String>();
@@ -60,33 +61,32 @@ public class ListTissues extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             // example &sel=0&sel=domain(threshold(45,69,ge)),255,0,0,128            
-            String description = pd.process(request.getParameter("description")).trim();                     
-            description = description.replace("&sel=0", "");            
+            String description = pd.process(request.getParameter("description")).trim();
+            description = description.replace("&sel=0", "");
             description = description.replace(",128,128,128", "");
             description = description.replace(",255,0,0", "");
-            description = description.trim();                        
+            description = description.trim();
 
-            String[] splitDescription = description.split("&sel=");     
+            String[] splitDescription = description.split("&sel=");
             switch (splitDescription.length) {
                 case 2:
                     finalDescription = splitDescription[1];
                     break;
                 case 3:
-                    finalDescription = "union("+splitDescription[1]+","+splitDescription[2]+")";
+                    finalDescription = "union(" + splitDescription[1] + "," + splitDescription[2] + ")";
                     break;
                 case 4:
-                    finalDescription = "union("+splitDescription[1]+",union("+splitDescription[2]+","+splitDescription[3]+"))";
+                    finalDescription = "union(" + splitDescription[1] + ",union(" + splitDescription[2] + "," + splitDescription[3] + "))";
                     break;
                 case 5:
-                    finalDescription = "union("+splitDescription[1]+",union("+splitDescription[2]+",union("+splitDescription[3]+","+splitDescription[4]+")))";
+                    finalDescription = "union(" + splitDescription[1] + ",union(" + splitDescription[2] + ",union(" + splitDescription[3] + "," + splitDescription[4] + ")))";
                     break;
                 default:
                     out.println("too many parameters in description");
                     break;
             }
-                                        
-            
-            Double roiVolume = new Double (talk("http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel="+finalDescription + "&obj=wlz-volume"));
+
+            Double roiVolume = new Double(talk("http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=" + finalDescription + "&obj=wlz-volume"));
 
             // for each domain
             // get the size of the domain
@@ -94,9 +94,9 @@ public class ListTissues extends HttpServlet {
             if (!finalDescription.equalsIgnoreCase("")) {
                 for (int i = 1; i < 45; i++) {
                     Double domainVolume = new Double(getVolume(i));
-                    String tissName = pd.convertNumberToTissue(i);                    
+                    String tissName = pd.convertNumberToTissue(i);
                     if (domainVolume != 0) {
-                        String queryUrl = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=intersect(" + i + "," + finalDescription + ")&obj=wlz-volume";                        
+                        String queryUrl = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=intersect(" + i + "," + finalDescription + ")&obj=wlz-volume";
                         Double intersection = new Double(talk(queryUrl));
                         Double dividedBy = domainVolume - intersection;
                         Double jaquardIndex = intersection / dividedBy;
@@ -110,44 +110,16 @@ public class ListTissues extends HttpServlet {
                         } else if (percentage > 90.0) {
                             // intersection is complete... so all of domain in ROI`
                             completelyCoveredTissues.add(tissName);
-                        } else {                                                        
+                        } else {
                             jaqResults.put(percentage, tissName);
                             sortJaqResults.add(percentage);
                         }
-                    }                    
+                    }
                 }
             }
 
             // sort output   
-            // BROWSER CANNOT PARSE THIS JSON
-            /*
-            JSONArray minus = new JSONArray();
-            Iterator<String> it1 = completelyCoveredTissues.iterator();
-            while (it1.hasNext()) {
-                minus.add(it1.next());
-            }
-            JSONArray p1 = new JSONArray();
-            it1 = completelyUnCoveredTissues.iterator();
-            while(it1.hasNext()) {
-                p1.add(it1.next());
-            }
-            JSONArray no_p = new JSONArray();
-            Iterator<Double> it = sortJaqResults.iterator();
-            while (it.hasNext()) {
-                //Double per = it.next();
-                //out.println(per+" "+jaqResults.get(per));
-                no_p.add(jaqResults.get(it.next()));
-            }            
-            
-            JSONObject json = new JSONObject();
-            json.put("p1", p1);
-            json.put("no_p", no_p);
-            json.put("minus", minus);
-            
-            out.println(json.toJSONString());
-            */
-            
-            
+ 
             String tempS = "";
             Iterator<String> it1 = completelyUnCoveredTissues.iterator();
             while (it1.hasNext()) {
@@ -162,47 +134,51 @@ public class ListTissues extends HttpServlet {
             it1 = completelyCoveredTissues.iterator();
             while (it1.hasNext()) {
                 tempS += it1.next() + ",";
-            }            
+            }
             if (tempS.endsWith(",")) {
                 tempS = tempS.substring(0, tempS.length() - 1);
-            }                       
-            out.println(tempS);            
+            }
+            out.println(tempS);
             out.flush();
         }
     }
 
-    private int talk(String queryURL) {
-        BufferedReader in = null;
-        ProcessDescription pd = new ProcessDescription();
-        String fileName = pd.getRandomFileName();
+    private int talk(String queryURL) {                
+        String line = "";
+
         try {
             // connect to SOLR and run query
             URL url = new URL(queryURL);
 
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-            FileOutputStream fos = new FileOutputStream(fileName);
-            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-            fos.flush();
-            fos.close();
-            rbc.close();
+            ByteBuffer buf = ByteBuffer.allocate(512);
 
+            while (rbc.read(buf) > 0) {
+
+                buf.flip();
+
+                while (buf.hasRemaining()) {
+                    char ch = (char) buf.get();
+                    line += ch;
+                }
+
+            }
+            line = line.trim();
         } catch (IOException e) {
             return -1;
         }
 
         try {
-            File temp = new File(fileName);
-            BufferedReader input = new BufferedReader(new FileReader(temp));
-            input.readLine(); //blank
-            int tiss = Integer.parseInt(input.readLine().trim().replace("Wlz-volume:", ""));
-            input.close();
-            temp.delete();
+            LOG.log(Level.INFO, "line read: {0}", line);
+
+            int tiss = Integer.parseInt(line.trim().replace("Wlz-volume:", ""));
+
+            LOG.log(Level.INFO, "tissue is: {0}", tiss);
+
             return tiss;
-
-        } catch (IOException ioe) {
-
+        } catch (Exception e) {
+            return -1;
         }
-        return -1;
     }
 
     public int getVolume(int num) {
