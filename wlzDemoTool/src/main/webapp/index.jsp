@@ -25,7 +25,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <div id="iip_image"><img src="http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png"/></div>
+                    <div id="iip_image"><img src="https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png"/></div>
                 </div>
                 <div class="col-md-3">
                     <br />
@@ -38,7 +38,7 @@
                     <br />
 
                     <div>
-                        <img src="http://lxbisel.macs.hw.ac.uk:8080/2016-03-14-pitch_yaw_explanation_small.jpg" />
+                        <span>Pitch, yaw &amp; roll: <img height="100" width="100" src="https://upload.wikimedia.org/wikipedia/commons/0/04/Flight_dynamics_with_text_ortho.svg" /></span>
                     </div>
 
                     <br />
@@ -231,7 +231,7 @@
             <div class="row">                
                 <div class="col-md-6">
                     <span><b><em>Debug info to be later hidden!</em></b></span>
-                    <span><b>Image being displayed:</b> </span><span id="url">http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png</span>
+                    <span><b>Image being displayed:</b> </span><span id="url">https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png</span>
                 </div>      
             </div>            
         </div>
@@ -239,7 +239,7 @@
             var newDST = 150;
             var newPIT = 90;
             var newYAW = 90;
-            var newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
+            var newURL = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
             var counter = 0;
             var relnArray = [];
 
@@ -317,13 +317,13 @@
                     for (var index = 0; index < relnArray.length; index++) {
                         description += relnArray[index].reln + ":" + relnArray[index].tissue + "*";
                     }
-                    //url = "http://localhost:8080/wlzDemoTool/ProcessSD?description=" + description;
-                    url = "http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=" + description;
+                    //url = "https://localhost:8080/wlzDemoTool/ProcessSD?description=" + description;
+                    url = "https://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=" + description;
                     //alert("url: "+url);
                     var getURL = $.ajax({method: "GET", url: url});
 
                     getURL.done(function (response) {
-                        newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz" + response + "&CVT=png";
+                        newURL = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz" + response + "&CVT=png";
                         //alert(newURL);
                         document.getElementById("url").innerHTML = newURL;
                         document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
@@ -333,7 +333,7 @@
                         console.log(textStatus);
                     });
                 } else {
-                    newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
+                    newURL = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
                     document.getElementById("url").innerHTML = newURL;
                     document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
                 }
@@ -363,7 +363,7 @@
 
                 counter = 0;
                 relnArray = [];
-                newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
+                newURL = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
 
                 document.getElementById("relnSelect").value = "0";
                 document.getElementById("relnTissueSelect").value = "0";
@@ -371,8 +371,8 @@
                 document.getElementById("relnTissueSelect2").value = "0";                
                 document.getElementById("scratch").innerHTML = "";
 
-                document.getElementById("iip_image").innerHTML = "<img src=\"http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png\"/>";
-                document.getElementById("url").innerHTML = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
+                document.getElementById("iip_image").innerHTML = "<img src=\"https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png\"/>";
+                document.getElementById("url").innerHTML = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&CVT=png";
             }
 
 

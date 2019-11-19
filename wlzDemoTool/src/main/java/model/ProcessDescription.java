@@ -5,10 +5,6 @@
  */
 package model;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.ByteBuffer;
@@ -157,7 +153,7 @@ public class ProcessDescription {
 
         if (dorsalList.size() > 0) {
             for (String name : dorsalList) {
-                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(46," + convertTissueToNumber(name) + "),46)&OBJ=Wlz-Grey-Stats";
+                String url = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(46," + convertTissueToNumber(name) + "),46)&OBJ=Wlz-Grey-Stats";
                 boolean result = talk(url);
                 if (!result) {
                     break;
@@ -173,7 +169,7 @@ public class ProcessDescription {
         }
         if (ventralList.size() > 0) {
             for (String name : ventralList) {
-                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(46," + convertTissueToNumber(name) + "),46)&OBJ=Wlz-Grey-Stats";
+                String url = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(46," + convertTissueToNumber(name) + "),46)&OBJ=Wlz-Grey-Stats";
                 boolean result = talk(url);
                 if (!result) {
                     break;
@@ -190,7 +186,7 @@ public class ProcessDescription {
 
         if (cranialList.size() > 0) {
             for (String name : cranialList) {
-                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(47," + convertTissueToNumber(name) + "),47)&OBJ=Wlz-Grey-Stats";
+                String url = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(47," + convertTissueToNumber(name) + "),47)&OBJ=Wlz-Grey-Stats";
                 boolean result = talk(url);
                 if (!result) {
                     break;
@@ -207,7 +203,7 @@ public class ProcessDescription {
 
         if (caudalList.size() > 0) {
             for (String name : caudalList) {
-                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(47," + convertTissueToNumber(name) + "),47)&OBJ=Wlz-Grey-Stats";
+                String url = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(47," + convertTissueToNumber(name) + "),47)&OBJ=Wlz-Grey-Stats";
                 boolean result = talk(url);
                 if (!result) {
                     break;
@@ -223,7 +219,7 @@ public class ProcessDescription {
 
         if (leftList.size() > 0) {
             for (String name : leftList) {
-                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(45," + convertTissueToNumber(name) + "),45)&OBJ=Wlz-Grey-Stats";
+                String url = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(45," + convertTissueToNumber(name) + "),45)&OBJ=Wlz-Grey-Stats";
                 boolean result = talk(url);
                 if (!result) {
                     break;
@@ -238,7 +234,7 @@ public class ProcessDescription {
         }
         if (rightList.size() > 0) {
             for (String name : rightList) {
-                String url = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(45," + convertTissueToNumber(name) + "),45)&OBJ=Wlz-Grey-Stats";
+                String url = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&SEL=transfer(intersect(45," + convertTissueToNumber(name) + "),45)&OBJ=Wlz-Grey-Stats";
                 boolean result = talk(url);
                 if (!result) {
                     break;
@@ -265,7 +261,7 @@ public class ProcessDescription {
             ByteBuffer buf = ByteBuffer.allocate(512);
 
             while (rbc.read(buf) > 0) {
-
+            	
                 buf.flip();
 
                 while (buf.hasRemaining()) {

@@ -31,7 +31,12 @@ import model.ProcessDescription;
 @WebServlet(name = "ListTissues", urlPatterns = {"/ListTissues"})
 public class ListTissues extends HttpServlet {
 
-    private static final Logger LOG = Logger.getLogger(ListTissues.class.getName());
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private static final Logger LOG = Logger.getLogger(ListTissues.class.getName());
 
     private ArrayList<String> completelyUnCoveredTissues = new ArrayList<String>();
     private ArrayList<String> completelyCoveredTissues = new ArrayList<String>();
@@ -59,9 +64,9 @@ public class ListTissues extends HttpServlet {
         completelyUnCoveredTissues.clear();
         String finalDescription = "";
 
-        try (PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {        	
             // example &sel=0&sel=domain(threshold(45,69,ge)),255,0,0,128            
-            String description = pd.process(request.getParameter("description")).trim();
+            String description = pd.process(request.getParameter("description")).trim();            
             description = description.replace("&sel=0", "");
             description = description.replace(",128,128,128", "");
             description = description.replace(",255,0,0", "");
@@ -85,9 +90,8 @@ public class ListTissues extends HttpServlet {
                     out.println("too many parameters in description");
                     break;
             }
-
-            Double roiVolume = new Double(talk("http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=" + finalDescription + "&obj=wlz-volume"));
-
+            
+            Double roiVolume = new Double(talk("https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=" + finalDescription + "&obj=wlz-volume"));            
             // for each domain
             // get the size of the domain
             // get the intersection of domain and ROI
@@ -96,7 +100,7 @@ public class ListTissues extends HttpServlet {
                     Double domainVolume = new Double(getVolume(i));
                     String tissName = pd.convertNumberToTissue(i);
                     if (domainVolume != 0) {
-                        String queryUrl = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=intersect(" + i + "," + finalDescription + ")&obj=wlz-volume";
+                        String queryUrl = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=intersect(" + i + "," + finalDescription + ")&obj=wlz-volume";
                         Double intersection = new Double(talk(queryUrl));
                         Double dividedBy = domainVolume - intersection;
                         Double jaquardIndex = intersection / dividedBy;
