@@ -15,7 +15,7 @@ Currently only one tool exists:
      * External (jpeg, tiff, nifti, fcgi & log4cpp)
      * Woolz
      * WlzIIPServer
-2. Run mvn package
+2. Run mvn package (see https://github.com/kcmcleod/phis_woolzSpatialDescriptionTool/issues/1).
 3. Copy the war file to your server
 
 
