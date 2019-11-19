@@ -21,14 +21,14 @@ Currently only one tool exists:
 
 ### Available endpoints ###
 
-Assuming the server has the IRI http://lxbisel.macs.hw.ac.uk:8080/ the following endpoints are available:
+Assuming the server has the IRI https://lxbisel.macs.hw.ac.uk:8080/ the following endpoints are available:
 
 #### wlzDemoTool ####
 
 1. Server to process spatial description and convert it to WlzIIPServer query:
-http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=cranial:liver*
-2. V1 http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/
-3. V2 http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/v2.jsp
+https://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=cranial:liver*
+2. V1 https://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/
+3. V2 https://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/v2.jsp
 
 ### Who do I talk to? ###
 
