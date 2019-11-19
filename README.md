@@ -15,6 +15,7 @@ Currently only one tool exists:
      * External (jpeg, tiff, nifti, fcgi & log4cpp)
      * Woolz
      * WlzIIPServer
+     Instructions are on the [Wiki](https://github.com/kcmcleod/phis_woolzSpatialDescriptionTool/wiki).
 2. Run mvn package (see https://github.com/kcmcleod/phis_woolzSpatialDescriptionTool/issues/1).
 3. Copy the war file to your server
 
@@ -29,6 +30,8 @@ Assuming the server has the IRI https://lxbisel.macs.hw.ac.uk:8080/ the followin
 https://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=cranial:liver*
 2. V1 https://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/
 3. V2 https://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/v2.jsp
+
+Please note that not every spatial description will change the image. You may need to play around (or just use heart which seems to mostly work).
 
 ### Who do I talk to? ###
 
