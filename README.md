@@ -32,7 +32,3 @@ https://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=cranial:liv
 3. V2 https://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/v2.jsp
 
 Please note that not every spatial description will change the image. You may need to play around (or just use heart which seems to mostly work).
-
-### Who do I talk to? ###
-
-kcm1@hw.ac.uk
