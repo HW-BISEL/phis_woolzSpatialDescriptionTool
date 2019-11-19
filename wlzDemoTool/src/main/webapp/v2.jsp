@@ -24,74 +24,22 @@
     <body>
         <div class="container">
             <div class="row">
+            	<br />
+            	<br />
+            
                 <div class="col-md-6">
-                    <div id="iip_image"><img src="http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png"/></div>
+                    <div id="iip_image"><img src="https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png"/></div>
                 </div>
-                <!--
-                <div class="col-md-2">
-                    <br />
-                    <span><b>Distance</b></span>
-                    <div class="input-group">                        
-                        <input id="dstSlider" type="range" class="form-control" max="200" min="0" step="10" value="150" onchange="updateDST()" />
-                        <span id="dstValue" class="input-group-addon">150</span>
-                    </div> 
 
-                    <br />
-
-                    <div>
-                        <img src="http://lxbisel.macs.hw.ac.uk:8080/2016-03-14-pitch_yaw_explanation_small.jpg" />
-                    </div>
-
-                    <br />
-
-                    <span><b>Yaw</b></span>
-                    <div class="input-group">
-                        <input id="yawSlider" type="range" class="form-control" max="200" min="0" step="10" value="90" onchange="updateYAW()" />
-                        <span id="yawValue" class="input-group-addon">90</span>
-                    </div>                    
-
-                    <br />
-
-                    <span><b>Pitch</b></span>
-                    <div class="input-group">                        
-                        <input id="pitSlider" type="range" class="form-control" max="200" min="0" step="10" value="90" onchange="updatePIT()" />
-                        <span id="pitValue" class="input-group-addon" >90</span>
-                    </div>    
-
-                    <br /> 
-
-                    <span><b>Slowly rotate mouse</b></span>
-                    <div class="input-group">
-                        <input type="button" class="btn btn-default" id="rotateButton" value="rotate" onclick="rotatePosition()" disabled="disabled">                    
-                    </div>          
-
-                    <br />
-                    
-                    <span><b>Choose a side</b></span>
-                    <div class="input-group">
-                        <input type="button" class="btn btn-default" id="leftButton" value="left" onclick="leftPosition()">
-                        <input type="button" class="btn btn-default" id="leftButton" value="rear" onclick="rearPosition()">                        
-                    </div>
-                    
-                    <br />
-                    
-                    <span><b>Reset position</b></span>
-                    <div class="input-group">
-                        <input type="button" class="btn btn-default" id="resetPosButton" value="reset" onclick="resetPosition()">                    
-                    </div>
-
-                <!--
-                <br />
                 
-                <span><b>Structure to highlight in red:</b></span>
-                <select id="tissueSelect" onchange="updateImage()" class="form-control" default="0">
+                <div class="col-md-6">
+                <span><b>Structure to highlight in red:</b></span>               
+                <select id="tissueSelect" onchange="updateImageWithTissue()" class="form-control" default="0">
                     <option value="0" selected="true">none</option>
-                    <option value="22">heart</option>
-                    <option value="3">liver</option>    
-                </select>      
-                
-            </div>   
-                -->
+                    <option value="22">heart</option>              
+                </select>                      
+                </div>
+            </div>                   
                 <div class="col-md-4">
                     <h2>Instructions</h2>
                     <p>This tool allows you to define a ROI by describing the space <strong>NOT</strong> in the ROI.</p>
@@ -138,12 +86,6 @@
                     <select id="relnSelect" class="form-control" default="0">
                         <option value="0" selected="true">none</option>
                         <option value="disjoint">disconnected with</option>                        
-                        <!--<option value="tangential">inside</option>-->
-                        <!--<option value="encloses">encloses the</option>   
-                        <option value="partial">overlaps the</option>
-                        <option value="tangential">is a tangential part of the</option>
-                        <option value="non-tangential">is a non-tangential part of the</option>
-                        -->
                     </select>                      
                 </div>
 
@@ -271,7 +213,7 @@
                 <div class="col-md-6">
                     <br />
                     <div id="phisSearch">
-                        <input type="button" class="btn btn-default" id="phisButton" value="PhIS it" onclick="window.open('http://beta.phenoimageshare.org/search/?q=')">                                         
+                        <input type="button" class="btn btn-default" id="phisButton" value="PhIS it" onclick="window.open('http://beta.phenoimageshare.org/search/?q=')" disabled="disabled">                                         
                     </div>
                 </div>
             </div>     
@@ -284,7 +226,7 @@
                 <div class="col-md-6">
                     <br />
                     <div id="emageSearch">
-                        <input type="button" class="btn btn-default" id="emageButton" value="EMAGE it" onclick="window.open('http://www.emouseatlas.org/emagewebapp/pages/emage_general_query_result.jsf?stages=17&includestructuresynonyms=true&structures=')"> 
+                        <input type="button" class="btn btn-default" id="emageButton" value="EMAGE it" onclick="window.open('http://www.emouseatlas.org/emagewebapp/pages/emage_general_query_result.jsf?stages=17&includestructuresynonyms=true&structures=')" disabled="disabled"> 
                     </div>
                 </div>
             </div>            
@@ -316,7 +258,7 @@
             <div class="col-md-6">
                 <span><b><em>Debug info to be later hidden!</em></b></span>
                 <span><b>Image being displayed:</b></span><br />                
-            </span><span id="url">http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png</span>
+            </span><span id="url">https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png</span>
          </div>   
         
 
@@ -325,7 +267,7 @@
             var newDST = 200;
             var newPIT = 90;
             var newYAW = 70;
-            var newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png";
+            var newURL = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png";
             var counter = 0;
             var relnArray = [];
 
@@ -360,7 +302,18 @@
             }
 
 
-            function updateImage() {
+			function updateImageWithTissue() {				
+				var tissueSelected = document.getElementById("tissueSelect").value;				
+				
+				var url = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png";
+				if(tissueSelected == 22) {
+					url = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=90&DST=150&WLZ=/data0/local/nginx/html/withAxes.wlz&sel=0&sel=35,0,255,0&CVT=png";
+				} 
+				
+				document.getElementById("iip_image").innerHTML = "<img src=\"" + url + "\"/>";
+			}
+
+            function updateImage() {            	
                 var description = "";
                 var url = "";
                 var url2 = "";
@@ -370,12 +323,12 @@
                         description += relnArray[index].reln + ":" + relnArray[index].tissue + "*";
                     }
 
-                    url = "http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=" + description;
-                    url2 = "http://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ListTissues?description=" + description;
+                    url = "https://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ProcessSD?description=" + description;
+                    url2 = "https://lxbisel.macs.hw.ac.uk:8080/wlzDemoTool/ListTissues?description=" + description;
 
                     var getURL = $.ajax({method: "GET", url: url});
                     getURL.done(function (response) {
-                        newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes2.wlz" + response + "&CVT=png";
+                        newURL = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes2.wlz" + response + "&CVT=png";
                         document.getElementById("url").innerHTML = newURL;
                         document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
                     });
@@ -424,7 +377,7 @@
                     });
 
                 } else {
-                    newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png";
+                    newURL = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=" + newPIT + "&YAW=" + newYAW + "&DST=" + newDST + "&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png";
                     document.getElementById("url").innerHTML = newURL;
                     document.getElementById("iip_image").innerHTML = "<img src=\"" + newURL + "\"/>";
                     document.getElementById("tOut").innerHTML = "<p>no relationships have been specified!</p>";
@@ -436,7 +389,7 @@
 
 
             function resetAll() {
-                newURL = "http://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png";
+                newURL = "https://lxbisel.macs.hw.ac.uk:8080/wlziip?PIT=90&YAW=70&DST=200&WLZ=/data0/local/nginx/html/withAxes2.wlz&sel=0&CVT=png";
                 counter = 0;
                 relnArray = [];
 
