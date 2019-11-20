@@ -101,21 +101,6 @@ public class ProcessDescription {
         }
 
         // process disconnected list
-        /* to remove
-            if (disconnectedList.size() > 0) {
-                outputText += "&sel=diff(0,";
-                if (disconnectedList.size() > 1) {
-                    outputText += "union(";
-                    for (String temp : disconnectedList) {
-                        outputText += convertTissueToNumber(temp) + ",";
-                    }
-                    outputText = outputText.substring(0, outputText.length() - 1);
-                    outputText += "))";
-                } else {
-                    outputText += convertTissueToNumber(disconnectedList.get(0)) + ")";
-                }
-            }
-         */
         if (disconnectedList.size() == 1) {
             outputText += "&sel=" + convertTissueToNumber(disconnectedList.get(0)) + ",128,128,128";
         } else if (disconnectedList.size() > 0) {
